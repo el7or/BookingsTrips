@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BookingsTrips.Helper;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookingsTrips.Models
@@ -49,53 +50,62 @@ namespace BookingsTrips.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "البريد الإلكتروني")]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "كلمة السر")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "تذكرني؟")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required_AR]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "البريد الإلكتروني")]
         public string Email { get; set; }
 
-        [Required]
+        [Required_AR]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "كلمة السر")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
+        [Display(Name = "تأكيد كلمة السر")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required_AR]
+        [Display(Name = "اسم المستخدم")]
+        public string FullName { get; set; }
+
+        [Required_AR]
+        [Display(Name = "رقم التليفون")]
+        [Phone]
+        public string Phone { get; set; }
     }
 
     public class ResetPasswordViewModel
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "البريد الإلكتروني")]
         public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "كلمة السر")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
+        [Display(Name = "تأكيد كلمة السر")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
@@ -106,7 +116,7 @@ namespace BookingsTrips.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "البريد الإلكتروني")]
         public string Email { get; set; }
     }
 }
