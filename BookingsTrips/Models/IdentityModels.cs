@@ -16,7 +16,7 @@ namespace BookingsTrips.Models
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
         //public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, string> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
@@ -25,6 +25,20 @@ namespace BookingsTrips.Models
         }
     }
 
+    public class ApplicationRole : IdentityRole
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public bool? IsActive { get; set; }
+        public bool? IsDeleted { get; set; }
+        public ApplicationRole():base()
+        {
+        }
+
+        public ApplicationRole(string roleName) : base(roleName)
+        {
+        }
+    }
     //public class ApplicationRole : IdentityRole
     //{
     //    [Display(Name = "القسم"), Required]
@@ -41,10 +55,10 @@ namespace BookingsTrips.Models
     //    public virtual ApplicationRole Role { get; set; }
     //}
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,string,IdentityUserLogin,IdentityUserRole,IdentityUserClaim>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("DefaultConnection")
         {
         }
 
@@ -52,5 +66,6 @@ namespace BookingsTrips.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 }

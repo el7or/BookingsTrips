@@ -7,13 +7,13 @@ namespace BookingsTrips.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class CreateInitial : IMigrationMetadata
+    public sealed partial class CreateIdentity : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateInitial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateIdentity));
         
         string IMigrationMetadata.Id
         {
-            get { return "202002220930555_CreateInitial"; }
+            get { return "202002221224423_CreateIdentity"; }
         }
         
         string IMigrationMetadata.Source

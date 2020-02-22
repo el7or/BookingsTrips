@@ -3,7 +3,7 @@ namespace BookingsTrips.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CreateInitial : DbMigration
+    public partial class CreateIdentity : DbMigration
     {
         public override void Up()
         {
@@ -12,6 +12,10 @@ namespace BookingsTrips.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
+                        Title = c.String(),
+                        Description = c.String(),
+                        IsActive = c.Boolean(),
+                        IsDeleted = c.Boolean(),
                         Name = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.Id)

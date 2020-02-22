@@ -187,9 +187,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\Required_AR.cs" />
-    <Compile Include="Migrations\202002220930555_CreateInitial.cs" />
-    <Compile Include="Migrations\202002220930555_CreateInitial.Designer.cs">
-      <DependentUpon>202002220930555_CreateInitial.cs</DependentUpon>
+    <Compile Include="Migrations\202002221224423_CreateIdentity.cs" />
+    <Compile Include="Migrations\202002221224423_CreateIdentity.Designer.cs">
+      <DependentUpon>202002221224423_CreateIdentity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -272,8 +272,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002220930555_CreateInitial.resx">
-      <DependentUpon>202002220930555_CreateInitial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002221224423_CreateIdentity.resx">
+      <DependentUpon>202002221224423_CreateIdentity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
