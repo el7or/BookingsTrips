@@ -13,6 +13,11 @@ namespace BookingsTrips.Controllers
             return View();
         }
 
+        public ActionResult PageNotFound()
+        {            
+            return View("Error");
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
