@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -15,7 +12,6 @@ namespace BookingsTrips.Models
         public string Phone { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
-        //public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, string> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -31,7 +27,7 @@ namespace BookingsTrips.Models
         public string Description { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
-        public ApplicationRole():base()
+        public ApplicationRole() : base()
         {
         }
 
@@ -39,23 +35,8 @@ namespace BookingsTrips.Models
         {
         }
     }
-    //public class ApplicationRole : IdentityRole
-    //{
-    //    [Display(Name = "القسم"), Required]
-    //    public string Title { get; set; }
-    //    public string Description { get; set; }
-    //    public bool? IsActive { get; set; }
-    //    public bool? IsDeleted { get; set; }
-    //    public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
-    //}
 
-    //public class ApplicationUserRole : IdentityUserRole<string>
-    //{
-    //    public virtual ApplicationUser User { get; set; }
-    //    public virtual ApplicationRole Role { get; set; }
-    //}
-
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,string,IdentityUserLogin,IdentityUserRole,IdentityUserClaim>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
     {
         public ApplicationDbContext()
             : base("DefaultConnection")
