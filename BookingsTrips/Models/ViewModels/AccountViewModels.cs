@@ -7,12 +7,12 @@ namespace BookingsTrips.Models
 
     public class LoginViewModel
     {
-        [Required]
+        [Required_AR]
         [Display(Name = "البريد الإلكتروني")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required_AR]
         [DataType(DataType.Password)]
         [Display(Name = "كلمة السر")]
         public string Password { get; set; }

@@ -64,7 +64,6 @@ namespace BookingsTrips.Controllers
             }
         }
 
-        //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -73,7 +72,6 @@ namespace BookingsTrips.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -103,7 +101,6 @@ namespace BookingsTrips.Controllers
             }
         }
 
-        //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
@@ -122,7 +119,6 @@ namespace BookingsTrips.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -136,7 +132,7 @@ namespace BookingsTrips.Controllers
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddToRoleAsync(user.Id, model.RoleName);
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -144,27 +140,29 @@ namespace BookingsTrips.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Users");
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
+            List<SelectListItem> rolesList = RoleManager.Roles.Select(r => new SelectListItem()
+            {
+                Value = r.Name,
+                Text = r.Title
+            }).ToList();
+            ViewBag.Roles = rolesList;
             return View(model);
         }
 
-        //
         // GET: /Account/ResetPassword
-        [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
             return code == null ? View("Error") : View();
         }
 
-        //
         // POST: /Account/ResetPassword
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
@@ -186,18 +184,17 @@ namespace BookingsTrips.Controllers
             AddErrors(result);
             return View();
         }
-
-        //
+        
         // GET: /Account/ResetPasswordConfirmation
-        [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
         }
 
+        #region UnUsed
         //
         // GET: /Account/VerifyCode
-        [AllowAnonymous]
+        // [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
             // Require that the user has already logged in via username/password or external login
@@ -211,7 +208,7 @@ namespace BookingsTrips.Controllers
         //
         // POST: /Account/VerifyCode
         [HttpPost]
-        [AllowAnonymous]
+        // [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
         {
@@ -240,7 +237,7 @@ namespace BookingsTrips.Controllers
 
         //
         // GET: /Account/ConfirmEmail
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -253,7 +250,7 @@ namespace BookingsTrips.Controllers
 
         //
         // GET: /Account/ForgotPassword
-        [AllowAnonymous]
+        // [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
@@ -262,7 +259,7 @@ namespace BookingsTrips.Controllers
         //
         // POST: /Account/ForgotPassword
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
@@ -289,7 +286,7 @@ namespace BookingsTrips.Controllers
 
         //
         // GET: /Account/ForgotPasswordConfirmation
-        [AllowAnonymous]
+        // [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
@@ -298,7 +295,7 @@ namespace BookingsTrips.Controllers
         //
         // POST: /Account/ExternalLogin
         [HttpPost]
-        [AllowAnonymous]
+        // [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
@@ -308,7 +305,7 @@ namespace BookingsTrips.Controllers
 
         //
         // GET: /Account/SendCode
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
@@ -324,7 +321,7 @@ namespace BookingsTrips.Controllers
         //
         // POST: /Account/SendCode
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SendCode(SendCodeViewModel model)
         {
@@ -343,7 +340,7 @@ namespace BookingsTrips.Controllers
 
         //
         // GET: /Account/ExternalLoginCallback
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
@@ -374,7 +371,7 @@ namespace BookingsTrips.Controllers
         //
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
-        [AllowAnonymous]
+        // [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
@@ -421,7 +418,7 @@ namespace BookingsTrips.Controllers
 
         //
         // GET: /Account/ExternalLoginFailure
-        [AllowAnonymous]
+        // [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
             return View();
@@ -447,7 +444,7 @@ namespace BookingsTrips.Controllers
             base.Dispose(disposing);
         }
 
-        #region Helpers
+        //#region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
