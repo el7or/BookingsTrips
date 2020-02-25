@@ -7,6 +7,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BookingsTrips.Models;
 using System.Collections.Generic;
+using BookingsTrips.Models.ViewModels;
+using System.Data.Entity;
+using System.Net;
 
 namespace BookingsTrips.Controllers
 {
@@ -89,7 +92,7 @@ namespace BookingsTrips.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", "Home");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -101,8 +104,21 @@ namespace BookingsTrips.Controllers
             }
         }
 
+        // GET: Account/index
+        public ActionResult Index()
+        {
+            var usersList = UserManager.Users.Include(u => u.Roles).Select(u => new UsersListViewModel
+            {
+                Id = u.Id,
+                FullName = u.FullName,
+                Email = u.Email,
+                Phone = u.Phone,
+                RoleName = RoleManager.Roles.Where( r => r.Id == u.Roles.FirstOrDefault().RoleId).FirstOrDefault().Title
+            }).ToList();
+            return View(usersList);
+        }
+
         // GET: /Account/Register
-        [AllowAnonymous]
         public ActionResult Register()
         {
             //List<SelectListItem> rolesList = new List<SelectListItem>();
@@ -121,7 +137,6 @@ namespace BookingsTrips.Controllers
 
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -146,6 +161,60 @@ namespace BookingsTrips.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            List<SelectListItem> rolesList = RoleManager.Roles.Select(r => new SelectListItem()
+            {
+                Value = r.Name,
+                Text = r.Title
+            }).ToList();
+            ViewBag.Roles = rolesList;
+            return View(model);
+        }
+
+        // GET: Account/Edit/5
+        public ActionResult Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = UserManager.Users.Include(u => u.Roles).FirstOrDefault(u => u.Id==id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new UserEditViewModel
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                Phone = user.Phone,
+                RoleName = RoleManager.FindById(user.Roles.FirstOrDefault().RoleId).Name
+            };
+            List<SelectListItem> rolesList = RoleManager.Roles.Select(r => new SelectListItem()
+            {
+                Value = r.Name,
+                Text = r.Title
+            }).ToList();
+            ViewBag.Roles = rolesList;
+            return View(model);
+        }
+
+        // POST: Account/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(UserEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = UserManager.FindById(model.Id);
+                user.FullName = model.FullName;
+                user.Phone = model.Phone;
+                user.Roles.Clear();
+                UserManager.AddToRole(user.Id, model.RoleName);
+                UserManager.Update(user);
+
+                return RedirectToAction("Index");
+            }
             List<SelectListItem> rolesList = RoleManager.Roles.Select(r => new SelectListItem()
             {
                 Value = r.Name,

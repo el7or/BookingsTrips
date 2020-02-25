@@ -15,12 +15,34 @@ public class UsersListViewModel
         [Display(Name = "البريد الإلكتروني")]
         public string Email { get; set; }
 
-        [Display(Name = "اسم المستخدم")]
+        [Display(Name = "الإسم")]
         public string FullName { get; set; }
 
         [Display(Name = "رقم التليفون")]
         public string Phone { get; set; }
 
+        [Display(Name = "القسم")]
+        public string RoleName { get; set; }
+    }
+    public class UserEditViewModel
+    {
+        public string Id { get; set; }
+
+        [Required_AR]
+        [EmailAddress]
+        [Display(Name = "البريد الإلكتروني")]
+        public string Email { get; set; }
+
+        [Required_AR]
+        [Display(Name = "الإسم")]
+        public string FullName { get; set; }
+
+        [Required_AR]
+        [Display(Name = "رقم التليفون")]
+        [Phone]
+        public string Phone { get; set; }
+
+        [Required_AR]
         [Display(Name = "القسم")]
         public string RoleName { get; set; }
     }

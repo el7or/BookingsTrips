@@ -40,7 +40,7 @@ namespace BookingsTrips.Models
         public string ConfirmPassword { get; set; }
 
         [Required_AR]
-        [Display(Name = "اسم المستخدم")]
+        [Display(Name = "الإسم")]
         public string FullName { get; set; }
 
         [Required_AR]
