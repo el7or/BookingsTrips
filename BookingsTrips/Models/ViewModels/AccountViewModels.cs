@@ -94,6 +94,8 @@ namespace BookingsTrips.Models
 
     public class ResetPasswordViewModel
     {
+        public string Id { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "البريد الإلكتروني")]
@@ -102,15 +104,13 @@ namespace BookingsTrips.Models
         [Required]
         [StringLength(100, ErrorMessage = "{0} لابد على الأقل أن تحتوي على {2} حروف أو رموز.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "كلمة السر")]
+        [Display(Name = "كلمة السر الجديدة")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "تأكيد كلمة السر")]
+        [Display(Name = "تأكيد كلمة السر الجديدة")]
         [Compare("Password", ErrorMessage = "كلمة السر وتأكيدها غير متطابقين.")]
         public string ConfirmPassword { get; set; }
-
-        public string Code { get; set; }
     }
 
     /*

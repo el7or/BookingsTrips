@@ -225,9 +225,23 @@ namespace BookingsTrips.Controllers
         }
 
         // GET: /Account/ResetPassword
-        public ActionResult ResetPassword(string id)
+        public async Task<ActionResult> ResetPassword(string id)
         {
-            return id == null ? View("Error") : View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = await UserManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new ResetPasswordViewModel
+            {
+                Id = user.Id,
+                Email = user.Email
+            };
+            return View(model);
         }
 
         // POST: /Account/ResetPassword
@@ -239,16 +253,11 @@ namespace BookingsTrips.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
-            if (user == null)
-            {
-                // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
-            }
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            var remove = await UserManager.RemovePasswordAsync(model.Id);
+            var result = await UserManager.AddPasswordAsync(model.Id, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("Index");
             }
             AddErrors(result);
             return View();
