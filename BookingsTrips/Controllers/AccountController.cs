@@ -7,9 +7,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BookingsTrips.Models;
 using System.Collections.Generic;
-using BookingsTrips.Models.ViewModels;
 using System.Data.Entity;
 using System.Net;
+using System;
 
 namespace BookingsTrips.Controllers
 {
@@ -142,7 +142,17 @@ namespace BookingsTrips.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FullName = model.FullName, Phone = model.Phone };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    Phone = model.Phone,
+                    CreatedBy = User.Identity.GetUserId(),
+                    CreatedOn = DateTime.Now,
+                    EditedBy = User.Identity.GetUserId(),
+                    EditedOn = DateTime.Now
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -155,7 +165,7 @@ namespace BookingsTrips.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Users");
+                    return RedirectToAction("Index");
                 }
                 AddErrors(result);
             }
@@ -209,6 +219,8 @@ namespace BookingsTrips.Controllers
                 var user = UserManager.FindById(model.Id);
                 user.FullName = model.FullName;
                 user.Phone = model.Phone;
+                user.EditedBy = User.Identity.GetUserId();
+                user.EditedOn = DateTime.Now;
                 user.Roles.Clear();
                 UserManager.Update(user);
                 var result = UserManager.AddToRole(model.Id, model.RoleName);
@@ -257,7 +269,7 @@ namespace BookingsTrips.Controllers
             var result = await UserManager.AddPasswordAsync(model.Id, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("ResetPasswordConfirmation");
             }
             AddErrors(result);
             return View();
@@ -276,7 +288,7 @@ namespace BookingsTrips.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login");
         }
 
         protected override void Dispose(bool disposing)

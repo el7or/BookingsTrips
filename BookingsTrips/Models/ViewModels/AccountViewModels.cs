@@ -1,4 +1,5 @@
 ﻿using BookingsTrips.Helper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -51,6 +52,11 @@ namespace BookingsTrips.Models
         [Required_AR]
         [Display(Name = "القسم")]
         public string RoleName { get; set; }
+
+        public string CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string EditedBy { get; set; }
+        public DateTime EditedOn { get; set; }
     }
 
     public class UsersListViewModel
@@ -90,6 +96,11 @@ namespace BookingsTrips.Models
         [Required_AR]
         [Display(Name = "القسم")]
         public string RoleName { get; set; }
+
+        public string CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string EditedBy { get; set; }
+        public DateTime EditedOn { get; set; }
     }
 
     public class ResetPasswordViewModel
