@@ -23,16 +23,16 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("المستخدمين", "Index", "Account")</li>
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>
-                        <a class="dropdown-toggle" data-toggle="dropdown">
-                            الحجوزات
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="nav dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("تذاكر طيران", "Contact", "Home")</li>
-                            <li>@Html.ActionLink("رحلات سياحية", "Contact", "Home")</li>
-                        </ul>
-                    </li>*@
+                        <li>
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                الحجوزات
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="nav dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("تذاكر طيران", "Contact", "Home")</li>
+                                <li>@Html.ActionLink("رحلات سياحية", "Contact", "Home")</li>
+                            </ul>
+                        </li>*@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -40,11 +40,10 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer class="text-left">
-            <p> @DateTime.Now.Year &copy; Trips Bookings </p>
-        </footer>
     </div>
+    <footer>
+        <p> @DateTime.Now.Year &copy; Trips Bookings </p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
