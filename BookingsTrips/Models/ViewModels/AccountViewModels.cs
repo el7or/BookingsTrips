@@ -29,14 +29,14 @@ namespace BookingsTrips.Models
         public string Email { get; set; }
 
         [Required_AR]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} لابد على الأقل أن تحتوي على {2} حروف أو رموز.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "كلمة السر")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "تأكيد كلمة السر")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "كلمة السر وتأكيدها غير متطابقين.")]
         public string ConfirmPassword { get; set; }
 
         [Required_AR]
@@ -61,14 +61,14 @@ namespace BookingsTrips.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} لابد على الأقل أن تحتوي على {2} حروف أو رموز.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "كلمة السر")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "تأكيد كلمة السر")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "كلمة السر وتأكيدها غير متطابقين.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

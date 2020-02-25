@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BookingsTrips.Models;
+using BookingsTrips.Models.ViewModels;
 
 namespace BookingsTrips.Controllers
 {
@@ -17,7 +18,15 @@ namespace BookingsTrips.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            return View(db.AspNetUsers.ToList());
+            var usersList = db.AspNetUsers.Select(u => new UsersListViewModel
+            {
+                Id = u.Id,
+                FullName = u.FullName,
+                Email = u.Email,
+                Phone = u.Phone,
+                RoleName = u.AspNetRoles.Select(r => r.Title).FirstOrDefault()
+            }).ToList();
+            return View(usersList);
         }
 
         // GET: Users/Details/5

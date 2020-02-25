@@ -156,9 +156,9 @@ namespace BookingsTrips.Controllers
         }
 
         // GET: /Account/ResetPassword
-        public ActionResult ResetPassword(string code)
+        public ActionResult ResetPassword(string id)
         {
-            return code == null ? View("Error") : View();
+            return id == null ? View("Error") : View();
         }
 
         // POST: /Account/ResetPassword
