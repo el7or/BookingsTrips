@@ -7,46 +7,62 @@
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("إضافة مستخدم جديد", "Register", "Account",null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("إضافة مستخدم جديد", "Register", "Account", null, new { @class = "btn btn-primary" })
 </p>
-<table class="table table-striped">
-    <tr class="info">
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RoleName)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoleName)
-            </td>
-            <td>
-                @Html.ActionLink("تعديل", "Edit", new { id = item.Id }, new { @class = "btn btn-success" }) |
-                @Html.ActionLink("تغيير كلمة السر",  "ResetPassword", "Account", new { id = item.Id }, new { @class = "btn btn-danger" })
-                @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-            </td>
+<table id="tblUsers" class="table table-striped">
+    <thead>
+        <tr class="info">
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoleName)
+            </th>
+            <th></th>
         </tr>
-    }
+    </thead>
 
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td>
+                    @Html.ActionLink("تعديل", "Edit", new { id = item.Id }, new { @class = "btn btn-success" }) |
+                    @Html.ActionLink("تغيير كلمة السر", "ResetPassword", "Account", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('#tblUsers').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Arabic.json"
+                }
+            });
+        });
+    </script>
+}
