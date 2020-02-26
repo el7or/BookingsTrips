@@ -7,7 +7,7 @@
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"> <span class="glyphicon glyphicon-bell"></span><span class="badge bg-danger">9</span></a></li>
+        @*<li><a href="#"> <span class="glyphicon glyphicon-bell"></span><span class="badge bg-danger">9</span></a></li>*@
         <li>
             @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
