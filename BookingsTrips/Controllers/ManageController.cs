@@ -55,10 +55,10 @@ namespace BookingsTrips.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                message == ManageMessageId.ChangePasswordSuccess ? "تم تغيير كلمة السر بنجاح."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                : message == ManageMessageId.Error ? "حدث خطأ ما !."
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
@@ -349,7 +349,14 @@ namespace BookingsTrips.Controllers
         {
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError("", error);
+                if (error == "Incorrect password.")
+                {
+                    ModelState.AddModelError("", "كلمة السر الحالية خطأ!");
+                }
+                else
+                {
+                    ModelState.AddModelError("", error);
+                }
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using BookingsTrips.Helper;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
@@ -27,40 +28,40 @@ namespace BookingsTrips.Models
 
     public class SetPasswordViewModel
     {
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required_AR]
+        [StringLength(100, ErrorMessage = "{0} لابد على الأقل أن تحتوي على {2} حروف أو رموز.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "كلمة السر الجديدة")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "تأكيد كلمة السر الجديدة")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Compare("NewPassword", ErrorMessage = "كلمة السر وتأكيدها غير متطابقين.")]
         public string ConfirmPassword { get; set; }
     }
 
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required_AR]
         [DataType(DataType.Password)]
         [Display(Name = "كلمة السر الحالية")]
         public string OldPassword { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required_AR]
+        [StringLength(100, ErrorMessage = "{0} لابد على الأقل أن تحتوي على {2} حروف أو رموز.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "كلمة السر الجديدة")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "تأكيد كلمة السر الجديدة")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Compare("NewPassword", ErrorMessage = "كلمة السر وتأكيدها غير متطابقين.")]
         public string ConfirmPassword { get; set; }
     }
 
     public class AddPhoneNumberViewModel
     {
-        [Required]
+        [Required_AR]
         [Phone]
         [Display(Name = "Phone Number")]
         public string Number { get; set; }
@@ -68,11 +69,11 @@ namespace BookingsTrips.Models
 
     public class VerifyPhoneNumberViewModel
     {
-        [Required]
+        [Required_AR]
         [Display(Name = "Code")]
         public string Code { get; set; }
 
-        [Required]
+        [Required_AR]
         [Phone]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }

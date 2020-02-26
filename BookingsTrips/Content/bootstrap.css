@@ -1790,7 +1790,7 @@ a.bg-warning:focus {
 }
 
 .bg-danger {
-    background-color: #f2dede;
+    background-color: #fd9f9f !important;
 }
 
 a.bg-danger:hover,
