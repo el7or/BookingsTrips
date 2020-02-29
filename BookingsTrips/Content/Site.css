@@ -48,6 +48,10 @@ div.loginForm{
     width:100px;
 }
 
+.btn{
+    min-width:75px !important;
+}
+
 /***** Fonts *****/
 h1, h2 {
     font-family: DecoType Naskh !important;
@@ -55,7 +59,7 @@ h1, h2 {
 label {
     font-family: Sakkal Majalla !important;
 }
-span.text-danger {
+span.text-danger, div.text-danger li {
     font-family: DecoType Naskh !important;
     font-size: large !important;
 }
@@ -63,7 +67,4 @@ span.text-danger {
     font-family: Aldhabi !important;
     font-size: 2.75rem !important;
     padding: 20px 15px !important;
-}
-.btn{
-    min-width:75px !important;
 }
