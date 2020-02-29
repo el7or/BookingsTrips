@@ -34,3 +34,36 @@ footer {
     color: #deb887;
     padding-top: 1rem;
 }
+
+div.loginForm{
+    margin: 0 auto;
+    width:400px;
+}
+
+    div.loginForm .form-control{
+        margin: 0 auto;
+    }
+
+.width100{
+    width:100px;
+}
+
+/***** Fonts *****/
+h1, h2 {
+    font-family: DecoType Naskh !important;
+}
+label {
+    font-family: Sakkal Majalla !important;
+}
+span.text-danger {
+    font-family: DecoType Naskh !important;
+    font-size: large !important;
+}
+.navbar-brand {
+    font-family: Aldhabi !important;
+    font-size: 2.75rem !important;
+    padding: 20px 15px !important;
+}
+.btn{
+    min-width:75px !important;
+}

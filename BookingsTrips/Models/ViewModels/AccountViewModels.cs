@@ -45,6 +45,9 @@ namespace BookingsTrips.Models
         public string FullName { get; set; }
 
         [Required_AR]
+        [MaxLength(12, ErrorMessage = "لابد من إدخال رقم تليفون صحيح.")]
+        [MinLength(10, ErrorMessage = "لابد من إدخال رقم تليفون صحيح.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم تليفون صحيح.")]
         [Display(Name = "رقم التليفون")]
         [Phone]
         public string Phone { get; set; }
@@ -89,6 +92,9 @@ namespace BookingsTrips.Models
         public string FullName { get; set; }
 
         [Required_AR]
+        [MaxLength(12, ErrorMessage = "لابد من إدخال رقم تليفون صحيح.")]
+        [MinLength(10, ErrorMessage = "لابد من إدخال رقم تليفون صحيح.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم تليفون صحيح.")]
         [Display(Name = "رقم التليفون")]
         [Phone]
         public string Phone { get; set; }
