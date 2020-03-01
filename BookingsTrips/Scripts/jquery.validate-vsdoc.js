@@ -315,13 +315,13 @@ $.extend($.validator, {
 	},
 
 	messages: {
-		required: "This field is required.",
+		required: "هذا الحقل مطلوب.",
 		remote: "Please fix this field.",
-		email: "Please enter a valid email address.",
+		email: "الرجاء إدخال بريد إلكتروني صحيح.",
 		url: "Please enter a valid URL.",
 		date: "Please enter a valid date.",
 		dateISO: "Please enter a valid date (ISO).",
-		number: "Please enter a valid number.",
+		number: "الرجاء إدخال رقم صحيح.",
 		digits: "Please enter only digits.",
 		creditcard: "Please enter a valid credit card number.",
 		equalTo: "Please enter the same value again.",

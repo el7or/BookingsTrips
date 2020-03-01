@@ -140,6 +140,10 @@ namespace BookingsTrips.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            if(UserManager.Users.FirstOrDefault(u => u.Email == model.Email)!= null)
+            {
+                ModelState.AddModelError("", "هذا البريد الإلكتروني مسجل قبل ذلك !");
+            }
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser

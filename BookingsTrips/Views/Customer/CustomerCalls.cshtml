@@ -1,0 +1,60 @@
+﻿@model IEnumerable<BookingsTrips.Models.ViewModels.CustomerCallListViewModel>
+
+@{
+    ViewBag.Title = "قائمة الاتصالات";
+}
+
+<h2>الاتصالات الخاصة بالعميل: @ViewBag.CustomerName</h2>
+<hr />
+
+<table id="tblCalls" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedByName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CallNote)
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedByName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CallNote)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<div>
+    @Html.ActionLink("العودة إلى قائمة العملاء", "Index", new { searchText = ViewBag.CustomerName })
+    <span class="glyphicon glyphicon-circle-arrow-left btn-link"></span>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('#tblCalls').DataTable({
+                "searching": false,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Arabic.json"
+                }
+            });
+        });
+    </script>
+}

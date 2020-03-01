@@ -56,8 +56,9 @@ div.loginForm{
 h1, h2 {
     font-family: DecoType Naskh !important;
 }
-label {
+label, th {
     font-family: Sakkal Majalla !important;
+    font-size: larger !important;
 }
 span.text-danger, div.text-danger li {
     font-family: DecoType Naskh !important;

@@ -57,9 +57,9 @@ namespace BookingsTrips.Models
         public string RoleName { get; set; }
 
         public string CreatedBy { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
         public string EditedBy { get; set; }
-        public DateTime EditedOn { get; set; }
+        public DateTime EditedOn { get; set; } = DateTime.Now;
     }
 
     public class UsersListViewModel
@@ -103,10 +103,8 @@ namespace BookingsTrips.Models
         [Display(Name = "القسم")]
         public string RoleName { get; set; }
 
-        public string CreatedBy { get; set; }
-        public DateTime CreatedOn { get; set; }
         public string EditedBy { get; set; }
-        public DateTime EditedOn { get; set; }
+        public DateTime EditedOn { get; set; } = DateTime.Now;
     }
 
     public class ResetPasswordViewModel

@@ -14,8 +14,8 @@
                 <span class="caret"></span>
             </a>
             <ul class="nav dropdown-menu" role="menu">
-                <li>@Html.ActionLink("تغيير كلمة السر", "ChangePassword","Manage")</li>
-                <li><a href="javascript:document.getElementById('logoutForm').submit()">تسجيل خروج</a></li>
+                <li><a href="@Url.Action("ChangePassword", "Manage")">تغيير كلمة السر&nbsp;<span class="glyphicon glyphicon-lock"></span></a></li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">تسجيل خروج &nbsp;<span class="glyphicon glyphicon-log-out"></span></a></li>
             </ul>
         </li>
         @*<li>
