@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حجوزات الرحلات - @ViewBag.Title</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/themes/base/css")
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 </head>
 <body>
@@ -20,7 +20,7 @@
                 @Html.ActionLink("برنامج الحجوزات", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 <div class="nav navbar-nav navbar-right hidden-lg hidden-md hidden-sm">
                     <a href="@Url.Action("Index", "Home")" class="navbar-brand" style="float:left;">
-                        <img src="~/Images/logo.png" width="50" title="core" alt="" style="margin-top: -18px; margin-left: -18px;" />
+                        <img src="~/Images/logo.png" width="50" title="core" alt="" style="margin-top: -18px; margin-left: -18px;border-radius: 5px;" />
                     </a>
                 </div>
             </div>
@@ -30,21 +30,22 @@
                     <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("المستخدمين", "Index", "Account")</li>
                         <li>@Html.ActionLink("العملاء", "Index", "Customer")</li>
+                        <li>@Html.ActionLink("رحلات الطيران", "Index", "Flight")</li>
                         @*<li>
-                            <a class="dropdown-toggle" data-toggle="dropdown">
-                                الحجوزات
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="nav dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("تذاكر طيران", "Contact", "Home")</li>
-                                <li>@Html.ActionLink("رحلات سياحية", "Contact", "Home")</li>
-                            </ul>
-                        </li>*@
+                                <a class="dropdown-toggle" data-toggle="dropdown">
+                                    الحجوزات
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="nav dropdown-menu" role="menu">
+                                    <li>@Html.ActionLink("تذاكر طيران", "Contact", "Home")</li>
+                                    <li>@Html.ActionLink("رحلات سياحية", "Contact", "Home")</li>
+                                </ul>
+                            </li>*@
                     </ul>
                 }
                 <div class="nav navbar-nav navbar-right hidden-xs">
                     <a href="@Url.Action("Index", "Home")" class="navbar-brand">
-                        <img src="~/Images/logo.png" width="50" title="core" alt="" style="margin-top: -18px; margin-left: -18px;" />
+                        <img src="~/Images/logo.png" width="50" title="core" alt="" style="margin-top: -18px; margin-left: -18px;border-radius: 5px;" />
                     </a>
                 </div>
                 @Html.Partial("_LoginPartial")
@@ -58,9 +59,12 @@
         <p> @DateTime.Now.Year &copy; Trips Bookings </p>
     </footer>
 
+    @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
     @RenderSection("scripts", required: false)
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script src="~/Scripts/datepicker-ar.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BookingsTrips.Models.ViewModels.CustomerListViewModel>
+﻿@model IEnumerable<BookingsTrips.Models.ViewModels.CustomerIndexViewModel>
 
 @{
     ViewBag.Title = "العملاء";
@@ -20,9 +20,9 @@
         </div>
     }
 </p>
-<table id="tblCustomers" class="table">
+<table id="tblCustomers" class="table table-striped">
     <thead>
-        <tr>
+        <tr class="info">
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>

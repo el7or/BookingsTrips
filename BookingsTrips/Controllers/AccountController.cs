@@ -114,8 +114,8 @@ namespace BookingsTrips.Controllers
                 Email = u.Email,
                 Phone = u.Phone,
                 RoleName = RoleManager.Roles.Where(r => r.Id == u.Roles.FirstOrDefault().RoleId).FirstOrDefault().Title
-            }).ToList();
-            return View(usersList);
+            });
+            return View(usersList.ToList());
         }
 
         // GET: /Account/Register

@@ -52,11 +52,19 @@ div.loginForm{
     min-width:75px !important;
 }
 
+input.datepicker{
+background-color:white !important;
+}
+
+dt {
+    text-decoration-line: unset;
+}
+
 /***** Fonts *****/
 h1, h2 {
     font-family: DecoType Naskh !important;
 }
-label, th {
+label, th, dt {
     font-family: Sakkal Majalla !important;
     font-size: larger !important;
 }

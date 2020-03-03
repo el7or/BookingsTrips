@@ -7,17 +7,17 @@
 <h2>الاتصالات الخاصة بالعميل: @ViewBag.CustomerName</h2>
 <hr />
 
-<table id="tblCalls" class="table">
+<table id="tblCalls" class="table table-striped">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedByName)
-            </th>
+        <tr class="info">
             <th>
                 @Html.DisplayNameFor(model => model.CreatedOn)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CallNote)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedByName)
             </th>
         </tr>
     </thead>
@@ -25,17 +25,17 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedByName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedOn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CallNote)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CallNote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedByName)
+            </td>
+        </tr>
         }
     </tbody>
 </table>

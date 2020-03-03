@@ -7,7 +7,7 @@ using System.Web;
 
 namespace BookingsTrips.Models.ViewModels
 {
-    public class CustomerListViewModel
+    public class CustomerIndexViewModel
     {
         public int Id { get; set; }
 

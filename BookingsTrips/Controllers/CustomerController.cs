@@ -19,10 +19,10 @@ namespace BookingsTrips.Controllers
         // GET: Customer
         public ActionResult Index(string searchText)
         {
-            var customers = new List<CustomerListViewModel>();
+            var customers = new List<CustomerIndexViewModel>();
             if (searchText != null && searchText != "")
             {
-                customers = db.Customers.Where(c => c.Name.Contains(searchText) || c.Phone == searchText).Select(c => new CustomerListViewModel
+                customers = db.Customers.Where(c => c.Name.Contains(searchText) || c.Phone == searchText).Select(c => new CustomerIndexViewModel
                 {
                     Id = c.Id,
                     Name = c.Name,
@@ -36,7 +36,6 @@ namespace BookingsTrips.Controllers
                 }).ToList();
             }
             return View(customers);
-
         }
 
         // GET: Customer/Create
@@ -145,9 +144,9 @@ namespace BookingsTrips.Controllers
                     CreatedByName = db.Users.Where(u => u.Id == c.CreatedBy).FirstOrDefault().FullName,
                     CreatedOn = c.CreatedOn,
                     CallNote = c.Note
-                }).ToList();
+                });
             ViewBag.CustomerName = customer.Name;
-            return View(customerCalls);
+            return View(customerCalls.ToList());
         }
 
         //// GET: Customer/Edit/5

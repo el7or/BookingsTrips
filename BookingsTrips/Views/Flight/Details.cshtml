@@ -1,0 +1,97 @@
+﻿@model BookingsTrips.Models.ViewModels.FlightDetailsViewModel
+
+@{
+    ViewBag.Title = "تفاصيل الرحلة";
+}
+
+<h2>تفاصيل الرحلة</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FromAirport)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FromAirport)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ToAirport)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToAirport)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FromDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FromDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ToDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Seats)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Seats)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SeatsAvailable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SeatsAvailable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cost) ج.م
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price) ج.م
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("تعديل الرحلة", "Edit", new { id = Model.Id }, new { @class = "btn btn-success" }) &nbsp;
+    @Html.ActionLink("إلغاء", "Index", null, new { @class = "btn btn-default" })
+</p>
