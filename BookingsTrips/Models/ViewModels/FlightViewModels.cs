@@ -138,13 +138,11 @@ namespace BookingsTrips.Models.ViewModels
         public int Seats { get; set; }
 
         [Required_AR]
-        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         [RegularExpression(@"^[0-9]+(\.[0-9][0-9]?)?", ErrorMessage = "لابد من إدخال صيغة رقمية أو عشرية صحيحة !")]
         [Display(Name = "سعر تكلفة التذكرة")]
         public decimal Cost { get; set; }
 
         [Required_AR]
-        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         [RegularExpression(@"^[0-9]+(\.[0-9][0-9]?)?", ErrorMessage = "لابد من أن إدخال صيغة رقمية أو عشرية صحيحة !")]
         [Display(Name = "سعر بيع التذكرة")]
         public decimal Price { get; set; }
