@@ -190,6 +190,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\Extensions.cs" />
     <Compile Include="Helper\Required_AR.cs" />
     <Compile Include="Migrations\202002221224423_CreateIdentity.cs" />
     <Compile Include="Migrations\202002221224423_CreateIdentity.Designer.cs">
@@ -209,6 +210,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\BoatModels.cs" />
     <Compile Include="Models\CustomerModels.cs" />
     <Compile Include="Models\FlightModels.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />

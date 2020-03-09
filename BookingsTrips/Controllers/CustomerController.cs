@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BookingsTrips.Helper;
 using BookingsTrips.Models;
 using BookingsTrips.Models.ViewModels;
 using Microsoft.AspNet.Identity;
@@ -22,6 +23,7 @@ namespace BookingsTrips.Controllers
             var customers = new List<CustomerIndexViewModel>();
             if (searchText != null && searchText != "")
             {
+                searchText = searchText.Normalize_AR();
                 customers = db.Customers.Where(c => c.Name.Contains(searchText) || c.Phone == searchText).Select(c => new CustomerIndexViewModel
                 {
                     Id = c.Id,
@@ -30,7 +32,7 @@ namespace BookingsTrips.Controllers
                     Phone = c.Phone,
                     LastCalls = c.Calls.OrderByDescending(d => d.CreatedOn).Take(3).Select(p => new LastCall
                     {
-                        Note = p.Note,
+                        Note = p.Note.Length < 50 ? p.Note.Substring(0, 50) : p.Note,
                         CreatedOn = db.Users.Where(u => u.Id == p.CreatedBy).FirstOrDefault().CreatedOn
                     }).ToList()
                 }).ToList();
@@ -57,7 +59,7 @@ namespace BookingsTrips.Controllers
             {
                 var customer = new Customer
                 {
-                    Name = model.Name,
+                    Name = model.Name.Normalize_AR(),
                     Email = model.Email,
                     Phone = model.Phone,
                     CreatedBy = User.Identity.GetUserId(),
@@ -80,6 +82,48 @@ namespace BookingsTrips.Controllers
                 return RedirectToAction("Index", new { searchText = model.Name });
             }
 
+            return View(model);
+        }
+
+        // GET: Customer/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new CustomerEditViewModel
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Phone = customer.Phone,
+                Email = customer.Email
+            };
+            return View(model);
+        }
+
+        // POST: Customer/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(CustomerEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var customer = db.Customers.Find(model.Id);
+                customer.Name = model.Name.Normalize_AR();
+                customer.Phone = model.Phone;
+                customer.Email = model.Email;
+                customer.EditedBy = User.Identity.GetUserId();
+                customer.EditedOn = DateTime.Now;
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index", new { searchText = model.Name });
+            }
             return View(model);
         }
 
@@ -148,37 +192,6 @@ namespace BookingsTrips.Controllers
             ViewBag.CustomerName = customer.Name;
             return View(customerCalls.ToList());
         }
-
-        //// GET: Customer/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Customer customer = db.Customers.Find(id);
-        //    if (customer == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(customer);
-        //}
-
-        //// POST: Customer/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "Id,Name,Phone,Email,IsActive,IsDeleted,CreatedBy,CreatedOn,EditedBy,EditedOn")] Customer customer)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(customer).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(customer);
-        //}
 
         //// GET: Customer/Delete/5
         //public ActionResult Delete(int? id)

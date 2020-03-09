@@ -128,21 +128,17 @@ namespace BookingsTrips.Controllers
         {
             if (ModelState.IsValid)
             {
-                var flight = new Flight
-                {
-                    Id = model.Id,
-                    FromAirport = model.FromAirport,
-                    ToAirport = model.ToAirport,
-                    FromDate = model.FromDate,
-                    ToDate = model.ToDate,
-                    Seats = model.Seats,
-                    Cost = model.Cost,
-                    Price = model.Price,
-                    CreatedBy = User.Identity.GetUserId(),
-                    CreatedOn = DateTime.Now,
-                    EditedBy = User.Identity.GetUserId(),
-                    EditedOn = DateTime.Now
-                };
+                var flight = db.Flights.Find(model.Id);
+                flight.Id = model.Id;
+                flight.FromAirport = model.FromAirport;
+                flight.ToAirport = model.ToAirport;
+                flight.FromDate = model.FromDate;
+                flight.ToDate = model.ToDate;
+                flight.Seats = model.Seats;
+                flight.Cost = model.Cost;
+                flight.Price = model.Price;
+                flight.EditedBy = User.Identity.GetUserId();
+                flight.EditedOn = DateTime.Now;
                 db.Entry(flight).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

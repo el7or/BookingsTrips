@@ -15,11 +15,18 @@
         <div class="form-group">
             @Html.TextBox("searchText", null, htmlAttributes: new { @class = "form-control col-md-6", @placeholder = "بحث بإسم العميل أو برقم الموبايل", @minlength = "7" })
             <div class="col-md-2">
-                <input type="submit" value="بحث" class="btn btn-info" />
+                <input type="submit" id="btnSearch" value="بحث" class="btn btn-info" />
             </div>
         </div>
     }
 </p>
+<p>
+    @if (@Request.QueryString["searchText"] == null)
+    {
+        <span class="text-danger col-md-12">&#8681; الرجاء البحث أولاً  لظهور النتائج في الجدول أدناه &#8681;</span>
+    }
+</p>
+
 <table id="tblCustomers" class="table table-striped">
     <thead>
         <tr class="info">
@@ -56,13 +63,14 @@
                     <ul>
                         @foreach (var call in item.LastCalls)
                         {
-                        <li><span>@call.CreatedOn.ToString("yyyy/MM/dd")</span>&nbsp;-&nbsp;<span>@call.Note</span></li>
+                            <li><span>@call.CreatedOn.ToString("yyyy/MM/dd")</span>&nbsp;-&nbsp;<span>@call.Note</span></li>
                         }
                     </ul>
                 </td>
                 <td>
-                    @Html.ActionLink("إضافة اتصال", "CreateCall", new { id = item.Id }, new { @class = "btn btn-success" }) |
-                    @Html.ActionLink("كل الاتصالات", "CustomerCalls", new { id = item.Id }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("تعديل", "Edit", new { id = item.Id }, new { @class = "btn btn-success" }) |
+                    @Html.ActionLink("إضافة اتصال", "CreateCall", new { id = item.Id }, new { @class = "btn btn-warning" }) |
+                    @Html.ActionLink("كل الاتصالات", "CustomerCalls", new { id = item.Id }, new { @class = "btn btn-primary" })
                 </td>
             </tr>
         }
@@ -82,10 +90,9 @@
         });
 
         // custom validation message to minlength in search text
-        var email = document.getElementById("searchText");
-        email.addEventListener("input", function (event) {
-
-            if (email.validity.tooShort) {
+        var txt = document.getElementById("searchText");
+        txt.addEventListener("input", function (event) {
+            if (txt.validity.tooShort) {
                 event.target.setCustomValidity("لابد على الأقل من كتابة 7 أحرف أو أرقام !");
             }
             else {

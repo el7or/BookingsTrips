@@ -10,7 +10,7 @@ namespace BookingsTrips.Models
     {
         [Required_AR]
         [Display(Name = "البريد الإلكتروني")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "الرجاء إدخال بريد إلكتروني صحيح !")]
         public string Email { get; set; }
 
         [Required_AR]
@@ -25,7 +25,7 @@ namespace BookingsTrips.Models
     public class RegisterViewModel
     {
         [Required_AR]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "الرجاء إدخال بريد إلكتروني صحيح !")]
         [Display(Name = "البريد الإلكتروني")]
         public string Email { get; set; }
 
@@ -83,7 +83,7 @@ namespace BookingsTrips.Models
         public string Id { get; set; }
 
         [Required_AR]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "الرجاء إدخال بريد إلكتروني صحيح !")]
         [Display(Name = "البريد الإلكتروني")]
         public string Email { get; set; }
 
@@ -112,7 +112,7 @@ namespace BookingsTrips.Models
         public string Id { get; set; }
 
         [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "الرجاء إدخال بريد إلكتروني صحيح !")]
         [Display(Name = "البريد الإلكتروني")]
         public string Email { get; set; }
 
