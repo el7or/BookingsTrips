@@ -44,5 +44,34 @@ namespace BookingsTrips.Models
         public DateTime CreatedOn { get; set; }
         public string EditedBy { get; set; }
         public DateTime EditedOn { get; set; }
+
+        public ICollection<Cabin> Cabins { get; set; }
+    }
+    public class Cabin
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [ForeignKey("Floor")]
+        public int FloorId { get; set; }
+        public Floor Floor { get; set; }
+
+        [ForeignKey("UserBooking")]
+        public string UserId { get; set; }
+        public ApplicationUser UserBooking { get; set; }
+
+        public CabinTypes Type { get; set; }
+
+        public bool? IsActive { get; set; }
+        public bool? IsDeleted { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string EditedBy { get; set; }
+        public DateTime EditedOn { get; set; }
+    }
+
+    public enum CabinTypes
+    {
+        Single, Double, Triple
     }
 }

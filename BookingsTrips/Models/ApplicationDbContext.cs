@@ -18,5 +18,8 @@ namespace BookingsTrips.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Call> Calls { get; set; }
         public DbSet<Flight> Flights { get; set; }
+        public DbSet<Boat> Boats { get; set; }
+        public DbSet<Floor> Floors { get; set; }
+        public DbSet<Cabin> Cabins { get; set; }
     }
 }

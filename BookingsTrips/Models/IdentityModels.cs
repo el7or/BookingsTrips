@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -16,6 +17,9 @@ namespace BookingsTrips.Models
         public DateTime CreatedOn { get; set; }
         public string EditedBy { get; set; }
         public DateTime EditedOn { get; set; }
+
+        public ICollection<Cabin> Cabins { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, string> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

@@ -208,6 +208,10 @@
     <Compile Include="Migrations\202003030715441_FlightModel.Designer.cs">
       <DependentUpon>202003030715441_FlightModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003091348515_BoatModel.cs" />
+    <Compile Include="Migrations\202003091348515_BoatModel.Designer.cs">
+      <DependentUpon>202003091348515_BoatModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\BoatModels.cs" />
@@ -365,6 +369,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003030715441_FlightModel.resx">
       <DependentUpon>202003030715441_FlightModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003091348515_BoatModel.resx">
+      <DependentUpon>202003091348515_BoatModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
