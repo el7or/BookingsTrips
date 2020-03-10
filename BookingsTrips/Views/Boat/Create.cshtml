@@ -1,0 +1,97 @@
+﻿@model BookingsTrips.Models.ViewModels.BoatCreateViewModel
+
+@{
+    ViewBag.Title = "إضافة مركب";
+}
+
+<h2>إضافة مركب جديد</h2>
+
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-0">بيانات المركب</a></li>
+        <li><a href="#tabs-1">أعداد الكبائن</a></li>
+        <li><a href="#tabs-2">توزيع الكبائن</a></li>
+    </ul>
+    <div id="tabs-0">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @type = "text", @class = "form-control datepicker", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @type = "text", @class = "form-control datepicker", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FloorsCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FloorsCount, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FloorsCount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="حفظ واستمرار" class="btn btn-success" />&nbsp;
+                        @Html.ActionLink("إلغاء", "Index", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div id="tabs-1">
+
+    </div>
+    <div id="tabs-2">
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            // initial tabs
+            $("#tabs").tabs()
+                .tabs("option", "disabled", [0, 1, 2])
+                .tabs("enable", @ViewBag.Tab)
+                .tabs( "option", "active", @ViewBag.Tab );;
+
+            // initial Datepicker
+            $.datepicker.setDefaults($.datepicker.regional['ar']);
+            $('#ToDate').datepicker({
+                dateFormat: "yy/mm/dd",
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date()
+            });
+
+            $("#FromDate").datepicker({
+                dateFormat: "yy/mm/dd",
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(),
+                onSelect: function (dateStr) {
+                    $("#ToDate").val(dateStr);
+                    $("#ToDate").datepicker("option", { minDate: new Date(dateStr) })
+                }
+            });
+        });
+    </script>
+}

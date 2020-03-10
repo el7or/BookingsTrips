@@ -29,18 +29,17 @@
                 {
                     <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("المستخدمين", "Index", "Account")</li>
-                        <li>@Html.ActionLink("العملاء", "Index", "Customer")</li>
-                            <li>@Html.ActionLink("رحلات الطيران", "Index", "Flight")</li>
-                            @*<li>
+                        <li>@Html.ActionLink("العملاء", "Index", "Customer")</li>                            
+                            <li>
                                     <a class="dropdown-toggle" data-toggle="dropdown">
-                                        الحجوزات
+                                        وسائل النقل
                                         <span class="caret"></span>
                                     </a>
                                     <ul class="nav dropdown-menu" role="menu">
-                                        <li>@Html.ActionLink("تذاكر طيران", "Contact", "Home")</li>
-                                        <li>@Html.ActionLink("رحلات سياحية", "Contact", "Home")</li>
+                                        <li>@Html.ActionLink("رحلات الطيران", "Index", "Flight")</li>
+                                        <li>@Html.ActionLink("المراكب", "Index", "Boat")</li>
                                     </ul>
-                                </li>*@
+                                </li>
                     </ul>
                 }
                 <div class="nav navbar-nav navbar-right hidden-xs">

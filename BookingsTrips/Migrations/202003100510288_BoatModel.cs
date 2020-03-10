@@ -31,10 +31,10 @@ namespace BookingsTrips.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         BoatId = c.Int(nullable: false),
                         FloorNumber = c.Int(nullable: false),
-                        AllCabinsCount = c.Int(),
-                        SingleCabinsCount = c.Int(),
-                        DoubleCabinsCount = c.Int(),
-                        TripleCabinsCount = c.Int(),
+                        FloorCabinsCount = c.Int(),
+                        FloorSingleCabinsCount = c.Int(),
+                        FloorDoubleCabinsCount = c.Int(),
+                        FloorTripleCabinsCount = c.Int(),
                         IsActive = c.Boolean(),
                         IsDeleted = c.Boolean(),
                         CreatedBy = c.String(),
@@ -47,13 +47,15 @@ namespace BookingsTrips.Migrations
                 .Index(t => t.BoatId);
             
             CreateTable(
-                "dbo.Cabins",
+                "dbo.UserCabinsCounts",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         FloorId = c.Int(nullable: false),
                         UserId = c.String(maxLength: 128),
-                        Type = c.Int(nullable: false),
+                        UserSingleCabinsCount = c.Int(nullable: false),
+                        UserDoubleCabinsCount = c.Int(nullable: false),
+                        UserTripleCabinsCount = c.Int(nullable: false),
                         IsActive = c.Boolean(),
                         IsDeleted = c.Boolean(),
                         CreatedBy = c.String(),
@@ -71,13 +73,13 @@ namespace BookingsTrips.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Cabins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Cabins", "FloorId", "dbo.Floors");
+            DropForeignKey("dbo.UserCabinsCounts", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.UserCabinsCounts", "FloorId", "dbo.Floors");
             DropForeignKey("dbo.Floors", "BoatId", "dbo.Boats");
-            DropIndex("dbo.Cabins", new[] { "UserId" });
-            DropIndex("dbo.Cabins", new[] { "FloorId" });
+            DropIndex("dbo.UserCabinsCounts", new[] { "UserId" });
+            DropIndex("dbo.UserCabinsCounts", new[] { "FloorId" });
             DropIndex("dbo.Floors", new[] { "BoatId" });
-            DropTable("dbo.Cabins");
+            DropTable("dbo.UserCabinsCounts");
             DropTable("dbo.Floors");
             DropTable("dbo.Boats");
         }

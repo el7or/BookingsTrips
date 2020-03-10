@@ -13,7 +13,7 @@ namespace BookingsTrips.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202003091348515_BoatModel"; }
+            get { return "202003100510288_BoatModel"; }
         }
         
         string IMigrationMetadata.Source

@@ -20,6 +20,6 @@ namespace BookingsTrips.Models
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Boat> Boats { get; set; }
         public DbSet<Floor> Floors { get; set; }
-        public DbSet<Cabin> Cabins { get; set; }
+        public DbSet<UserCabinsCount> UserCabinsCounts { get; set; }
     }
 }

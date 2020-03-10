@@ -1,0 +1,68 @@
+﻿@model IEnumerable<BookingsTrips.Models.ViewModels.BoatIndexViewModel>
+
+@{
+    ViewBag.Title = "المراكب";
+}
+
+<h2>قائمة المراكب</h2>
+
+<p>
+    @Html.ActionLink("إضافة مركب جديد", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table id="tblBoats" class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FromDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FloorsCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CabinsCount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FromDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ToDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FloorsCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CabinsCount)
+                </td>
+                <td>
+                    @Html.ActionLink("تعديل بيانات المركب", "Edit", new { id = item.Id }, new { @class = "btn btn-success" }) |
+                    @Html.ActionLink("تعديل أعداد الكبائن", "Edit", new { id = item.Id }, new { @class = "btn btn-success" }) |
+                    @Html.ActionLink("تعديل توزيع الكبائن", "Edit", new { id = item.Id }, new { @class = "btn btn-success" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('#tblBoats').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Arabic.json"
+                }
+            });
+        });
+    </script>
+}

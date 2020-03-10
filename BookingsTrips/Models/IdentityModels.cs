@@ -18,7 +18,7 @@ namespace BookingsTrips.Models
         public string EditedBy { get; set; }
         public DateTime EditedOn { get; set; }
 
-        public ICollection<Cabin> Cabins { get; set; }
+        public ICollection<UserCabinsCount> UserCabinsCounts { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, string> manager)
         {

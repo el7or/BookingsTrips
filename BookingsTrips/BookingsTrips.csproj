@@ -183,6 +183,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BoatController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\FlightController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -208,9 +209,9 @@
     <Compile Include="Migrations\202003030715441_FlightModel.Designer.cs">
       <DependentUpon>202003030715441_FlightModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202003091348515_BoatModel.cs" />
-    <Compile Include="Migrations\202003091348515_BoatModel.Designer.cs">
-      <DependentUpon>202003091348515_BoatModel.cs</DependentUpon>
+    <Compile Include="Migrations\202003100510288_BoatModel.cs" />
+    <Compile Include="Migrations\202003100510288_BoatModel.Designer.cs">
+      <DependentUpon>202003100510288_BoatModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Models\FlightModels.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ViewModels\BoatViewModels.cs" />
     <Compile Include="Models\ViewModels\CustomerViewModels.cs" />
     <Compile Include="Models\ViewModels\FlightViewModels.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
@@ -345,6 +347,11 @@
     <Content Include="Views\Flight\Details.cshtml" />
     <Content Include="Views\Flight\Edit.cshtml" />
     <Content Include="Views\Flight\Index.cshtml" />
+    <Content Include="Views\Boat\Create.cshtml" />
+    <Content Include="Views\Boat\Delete.cshtml" />
+    <Content Include="Views\Boat\Details.cshtml" />
+    <Content Include="Views\Boat\Edit.cshtml" />
+    <Content Include="Views\Boat\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -370,8 +377,8 @@
     <EmbeddedResource Include="Migrations\202003030715441_FlightModel.resx">
       <DependentUpon>202003030715441_FlightModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003091348515_BoatModel.resx">
-      <DependentUpon>202003091348515_BoatModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003100510288_BoatModel.resx">
+      <DependentUpon>202003100510288_BoatModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

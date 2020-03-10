@@ -33,10 +33,10 @@ namespace BookingsTrips.Models
         public Boat Boat { get; set; }
 
         public int FloorNumber { get; set; }
-        public int? AllCabinsCount { get; set; }
-        public int? SingleCabinsCount { get; set; }
-        public int? DoubleCabinsCount { get; set; }
-        public int? TripleCabinsCount { get; set; }
+        public int? FloorCabinsCount { get; set; }
+        public int? FloorSingleCabinsCount { get; set; }
+        public int? FloorDoubleCabinsCount { get; set; }
+        public int? FloorTripleCabinsCount { get; set; }
 
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
@@ -45,9 +45,9 @@ namespace BookingsTrips.Models
         public string EditedBy { get; set; }
         public DateTime EditedOn { get; set; }
 
-        public ICollection<Cabin> Cabins { get; set; }
+        public ICollection<UserCabinsCount> UserCabinsCounts { get; set; }
     }
-    public class Cabin
+    public class UserCabinsCount
     {
         [Key]
         public int Id { get; set; }
@@ -56,11 +56,13 @@ namespace BookingsTrips.Models
         public int FloorId { get; set; }
         public Floor Floor { get; set; }
 
-        [ForeignKey("UserBooking")]
+        [ForeignKey("User")]
         public string UserId { get; set; }
-        public ApplicationUser UserBooking { get; set; }
+        public ApplicationUser User { get; set; }
 
-        public CabinTypes Type { get; set; }
+        public int UserSingleCabinsCount { get; set; }
+        public int UserDoubleCabinsCount { get; set; }
+        public int UserTripleCabinsCount { get; set; }
 
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
@@ -68,10 +70,5 @@ namespace BookingsTrips.Models
         public DateTime CreatedOn { get; set; }
         public string EditedBy { get; set; }
         public DateTime EditedOn { get; set; }
-    }
-
-    public enum CabinTypes
-    {
-        Single, Double, Triple
     }
 }
