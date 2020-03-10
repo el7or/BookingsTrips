@@ -38,10 +38,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ToDate)
                 </td>
-                <td>
+                <td style="text-align:center;">
                     @Html.DisplayFor(modelItem => item.FloorsCount)
                 </td>
-                <td>
+                <td style="text-align:center;">
                     @Html.DisplayFor(modelItem => item.CabinsCount)
                 </td>
                 <td>
@@ -65,4 +65,13 @@
             });
         });
     </script>
+}
+
+@section Styles
+{
+    <style type="text/css">
+        table th, table td {
+            text-align:center !important;
+        }
+    </style>
 }

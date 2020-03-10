@@ -34,6 +34,25 @@ namespace BookingsTrips.Helper
             //}
             //return normalizedText;
         }
+
+        public static string FloorNumber_AR(this int floorNumber)
+        {
+            switch (floorNumber)
+            {
+                case 1:
+                    return "الدور الأول";
+                case 2:
+                    return "الدور الثاني";
+                case 3:
+                    return "الدور الثالث";
+                case 4:
+                    return "الدور الرابع";
+                case 5:
+                    return "الدور الخامس";
+                default:
+                    return "";
+            }
+        }
     }
 }
 

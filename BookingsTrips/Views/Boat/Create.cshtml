@@ -26,8 +26,7 @@
     <div id="tabs-2">
         @if (ViewBag.Tab == 2)
         {
-            <p>توزيع الكبائن</p>
-            //Html.RenderAction("", new { id = ViewBag.BoatId });
+            Html.RenderAction("GetUserCabinsCount",new { id = ViewBag.BoatId }); 
         }
     </div>
 </div>
