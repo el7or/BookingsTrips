@@ -49,6 +49,7 @@ namespace BookingsTrips.Models.ViewModels
     public class FloorCabinsCountViewModel
     {
         public int Id { get; set; }
+        public int BoatId { get; set; }
 
         [Display(Name = "الدور رقم: ")]
         public int FloorNumber { get; set; }

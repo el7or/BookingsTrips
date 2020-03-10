@@ -30,25 +30,13 @@ namespace BookingsTrips.Controllers
             return View(boats.ToList());
         }
 
-        // GET: Boat/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Boat boat = db.Boats.Find(id);
-            if (boat == null)
-            {
-                return HttpNotFound();
-            }
-            return View(boat);
-        }
-
         // GET: Boat/Create
-        public ActionResult Create()
+        public ActionResult Create(int? tab)
         {
-            ViewBag.Tab = 0;
+            if (tab != null)
+            {
+                ViewBag.Tab = tab;
+            }
             return View();
         }
 
@@ -88,9 +76,50 @@ namespace BookingsTrips.Controllers
                 }
                 db.SaveChanges();
                 ViewBag.Tab = 1;
+                ViewBag.BoatId = boat.Id;
                 return View();
             }
+            ViewBag.Tab = 0;
+            return View(model);
+        }
 
+        // GET: Boat/EditFloorCabinsCount/5
+        public ActionResult GetFloorCabinsCount(int? id)
+        {
+            var model = db.Floors.Where(i => i.BoatId == id).Select(f => new FloorCabinsCountViewModel
+            {
+                Id = f.Id,
+                BoatId = f.BoatId,
+                FloorNumber = f.FloorNumber,
+                FloorSingleCabinsCount = f.FloorSingleCabinsCount,
+                FloorDoubleCabinsCount = f.FloorDoubleCabinsCount,
+                FloorTripleCabinsCount = f.FloorTripleCabinsCount
+            }).ToList();
+            return PartialView("_FloorCabinsCount", model);
+        }
+
+        // POST: Boat/EditFloorCabinsCount/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditFloorCabinsCount(IEnumerable<FloorCabinsCountViewModel> model)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in model)
+                {
+                    var floor = db.Floors.Find(item.Id);
+                    floor.FloorCabinsCount = item.FloorSingleCabinsCount + item.FloorDoubleCabinsCount + item.FloorTripleCabinsCount;
+                    floor.FloorSingleCabinsCount = item.FloorSingleCabinsCount;
+                    floor.FloorDoubleCabinsCount = item.FloorDoubleCabinsCount;
+                    floor.FloorTripleCabinsCount = item.FloorTripleCabinsCount;
+                    floor.EditedBy = User.Identity.GetUserId();
+                    floor.EditedOn = DateTime.Now;
+                    db.Entry(floor).State = EntityState.Modified;
+                }
+                db.SaveChanges();
+                ViewBag.BoatId = model.First().BoatId;
+                return RedirectToAction("Create",new { tab = 2 });
+            }
             return View(model);
         }
 
@@ -110,8 +139,6 @@ namespace BookingsTrips.Controllers
         }
 
         // POST: Boat/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,FromDate,ToDate,FloorsCount,IsActive,IsDeleted,CreatedBy,CreatedOn,EditedBy,EditedOn")] Boat boat)
@@ -125,32 +152,6 @@ namespace BookingsTrips.Controllers
             return View(boat);
         }
 
-        // GET: Boat/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Boat boat = db.Boats.Find(id);
-            if (boat == null)
-            {
-                return HttpNotFound();
-            }
-            return View(boat);
-        }
-
-        // POST: Boat/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Boat boat = db.Boats.Find(id);
-            db.Boats.Remove(boat);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -159,5 +160,46 @@ namespace BookingsTrips.Controllers
             }
             base.Dispose(disposing);
         }
+
+        //// GET: Boat/Details/5
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Boat boat = db.Boats.Find(id);
+        //    if (boat == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(boat);
+        //}
+
+        //// GET: Boat/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Boat boat = db.Boats.Find(id);
+        //    if (boat == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(boat);
+        //}
+
+        //// POST: Boat/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Boat boat = db.Boats.Find(id);
+        //    db.Boats.Remove(boat);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
     }
 }
