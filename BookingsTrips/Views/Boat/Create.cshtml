@@ -13,7 +13,7 @@
         <li><a href="#tabs-2">توزيع الكبائن</a></li>
     </ul>
     <div id="tabs-0">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Create", "Boat", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
 

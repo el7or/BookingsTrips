@@ -46,4 +46,26 @@ namespace BookingsTrips.Models.ViewModels
         [Display(Name = "عدد الأدوار")]
         public int FloorsCount { get; set; }
     }
+    public class FloorCabinsCountViewModel
+    {
+        public int Id { get; set; }
+
+        [Display(Name = "الدور رقم: ")]
+        public int FloorNumber { get; set; }
+
+        [Required_AR]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
+        [Display(Name = "عدد الكبائن الفردي")]
+        public int? FloorSingleCabinsCount { get; set; }
+
+        [Required_AR]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
+        [Display(Name = "عدد الكبائن الزوجي")]
+        public int? FloorDoubleCabinsCount { get; set; }
+
+        [Required_AR]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
+        [Display(Name = "عدد الكبائن الثلاثي")]
+        public int? FloorTripleCabinsCount { get; set; }
+    }
 }
