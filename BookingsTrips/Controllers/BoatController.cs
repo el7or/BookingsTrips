@@ -105,6 +105,99 @@ namespace BookingsTrips.Controllers
             return View(model);
         }
 
+        // GET: Boat/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Boat boat = db.Boats.Find(id);
+            if (boat == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new BoatEditViewModel
+            {
+                Id = boat.Id,
+                FromDate = boat.FromDate,
+                ToDate = boat.ToDate,
+                FloorsCount = boat.FloorsCount,
+                UsersCount = boat.FloorsCount
+            };
+            ViewBag.Tab = 0;
+            return View(model);
+        }
+
+        // POST: Boat/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(BoatEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var boat = db.Boats.Include(b => b.Floors).Include("Floors.UserCabinsCounts").SingleOrDefault(i => i.Id == model.Id);
+                boat.FromDate = model.FromDate;
+                boat.ToDate = model.ToDate;
+                boat.FloorsCount = model.FloorsCount;
+                boat.EditedBy = User.Identity.GetUserId();
+                boat.EditedOn = DateTime.Now;
+                foreach (var floor in boat.Floors)
+                {
+                    db.UserCabinsCounts.RemoveRange(floor.UserCabinsCounts);
+                }
+                db.Floors.RemoveRange(boat.Floors);
+                db.Entry(boat).State = EntityState.Modified;
+                for (int i = 0; i < boat.FloorsCount; i++)
+                {
+                    var floor = new Floor
+                    {
+                        Boat = boat,
+                        FloorNumber = i + 1,
+                        FloorCabinsCount = 0,
+                        FloorSingleCabinsCount = 0,
+                        FloorDoubleCabinsCount = 0,
+                        FloorTripleCabinsCount = 0,
+                        CreatedBy = User.Identity.GetUserId(),
+                        CreatedOn = DateTime.Now,
+                        EditedBy = User.Identity.GetUserId(),
+                        EditedOn = DateTime.Now
+                    };
+                    db.Floors.Add(floor);
+                    for (int ii = 0; ii < model.UsersCount; ii++)
+                    {
+                        db.UserCabinsCounts.Add(new UserCabinsCount
+                        {
+                            Floor = floor,
+                            UserId = User.Identity.GetUserId(),
+                            UserSingleCabinsCount = 0,
+                            UserDoubleCabinsCount = 0,
+                            UserTripleCabinsCount = 0,
+                            CreatedBy = User.Identity.GetUserId(),
+                            CreatedOn = DateTime.Now,
+                            EditedBy = User.Identity.GetUserId(),
+                            EditedOn = DateTime.Now
+                        });
+                    }
+                }
+                db.SaveChanges();
+
+                ViewData["Tab1Model"] = boat.Floors.Select(f => new FloorCabinsCountViewModel
+                {
+                    Id = f.Id,
+                    FloorNumber = f.FloorNumber,
+                    FloorSingleCabinsCount = f.FloorSingleCabinsCount,
+                    FloorDoubleCabinsCount = f.FloorDoubleCabinsCount,
+                    FloorTripleCabinsCount = f.FloorTripleCabinsCount
+                }).ToList();
+                ViewBag.Tab = 1;
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
+                return View();
+            }
+            ViewBag.Tab = 0;
+            return View(model);
+        }
+
         // POST: Boat/EditFloorCabinsCount
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -116,7 +209,7 @@ namespace BookingsTrips.Controllers
 
                 foreach (var item in model)
                 {
-                    var floor = db.Floors.Include(f =>f.UserCabinsCounts).FirstOrDefault(i =>i.Id== item.Id);
+                    var floor = db.Floors.Include(f => f.UserCabinsCounts).FirstOrDefault(i => i.Id == item.Id);
                     floor.FloorCabinsCount = item.FloorSingleCabinsCount + item.FloorDoubleCabinsCount + item.FloorTripleCabinsCount;
                     floor.FloorSingleCabinsCount = item.FloorSingleCabinsCount;
                     floor.FloorDoubleCabinsCount = item.FloorDoubleCabinsCount;
@@ -139,7 +232,7 @@ namespace BookingsTrips.Controllers
                         {
                             Id = u.Id,
                             UserId = u.UserId,
-                            UserSingleCabinsCount = u.UserSingleCabinsCount,                            
+                            UserSingleCabinsCount = u.UserSingleCabinsCount,
                             UserDoubleCabinsCount = u.UserDoubleCabinsCount,
                             UserTripleCabinsCount = u.UserTripleCabinsCount
                         }).ToList()
@@ -188,7 +281,7 @@ namespace BookingsTrips.Controllers
                 TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
-                List<SelectListItem> usersList = db.Users.Select(u => new SelectListItem()
+            List<SelectListItem> usersList = db.Users.Select(u => new SelectListItem()
             {
                 Value = u.Id,
                 Text = u.FullName
@@ -197,35 +290,6 @@ namespace BookingsTrips.Controllers
             ViewBag.Tab = 2;
             ViewData["Tab2Model"] = model;
             return View("Create");
-        }
-
-        // GET: Boat/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Boat boat = db.Boats.Find(id);
-            if (boat == null)
-            {
-                return HttpNotFound();
-            }
-            return View(boat);
-        }
-
-        // POST: Boat/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FromDate,ToDate,FloorsCount,IsActive,IsDeleted,CreatedBy,CreatedOn,EditedBy,EditedOn")] Boat boat)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(boat).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(boat);
         }
 
         protected override void Dispose(bool disposing)

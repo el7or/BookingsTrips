@@ -355,6 +355,7 @@
     <Content Include="Views\Boat\_CreateBoat.cshtml" />
     <Content Include="Views\Boat\_FloorCabinsCount.cshtml" />
     <Content Include="Views\Boat\_UserCabinsCount.cshtml" />
+    <Content Include="Views\Boat\_EditBoat.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

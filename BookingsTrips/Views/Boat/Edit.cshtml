@@ -1,110 +1,160 @@
-﻿@model BookingsTrips.Models.Boat
-
-@{
-    ViewBag.Title = "Edit";
+﻿@{
+    ViewBag.Title = "تعديل المركب";
 }
 
-<h2>Edit</h2>
+<h2>تعديل جميع تفاصيل المركب</h2>
 
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Boat</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FloorsCount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FloorsCount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FloorsCount, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsActive)
-                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsDeleted, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsDeleted)
-                    @Html.ValidationMessageFor(model => model.IsDeleted, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreatedBy, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CreatedBy, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CreatedBy, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreatedOn, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CreatedOn, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CreatedOn, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditedBy, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EditedBy, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EditedBy, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditedOn, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EditedOn, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EditedOn, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-0">(&#x06F1;) بيانات المركب</a></li>
+        <li><a href="#tabs-1">(&#x06F2;) أعداد الكبائن</a></li>
+        <li><a href="#tabs-2">(&#x06F3;) توزيع الكبائن</a></li>
+    </ul>
+    <div id="tabs-0">
+        @if (ViewBag.Tab == 0)
+        {
+            Html.RenderPartial("_EditBoat");
+        }
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    <div id="tabs-1">
+        @if (ViewBag.Tab == 1)
+        {
+            Html.RenderPartial("_FloorCabinsCount", ViewData["Tab1Model"]);
+        }
+    </div>
+    <div id="tabs-2">
+        @if (ViewBag.Tab == 2)
+        {
+            Html.RenderPartial("_UserCabinsCount", ViewData["Tab2Model"]);
+        }
+    </div>
 </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            // initial tabs
+            $("#tabs").tabs()
+                .tabs("option", "disabled", [0, 1, 2])
+                .tabs("enable", @ViewBag.Tab)
+                .tabs( "option", "active", @ViewBag.Tab );;
+
+            // initial Datepickers
+            $.datepicker.setDefaults($.datepicker.regional['ar']);
+            $('#ToDate').datepicker({
+                dateFormat: "yy/mm/dd",
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date()
+            });
+            $("#FromDate").datepicker({
+                dateFormat: "yy/mm/dd",
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(),
+                onSelect: function (dateStr) {
+                    $("#ToDate").val(dateStr);
+                    $("#ToDate").datepicker("option", { minDate: new Date(dateStr) })
+                }
+            });
+
+            // update numbers of cabins in tab 2
+            function generate_handler_single(floorNumber) {
+                return function (event) {
+                    var sumSingleAllFloor = 0;
+                    $(".singleAllCount-floor" + floorNumber).each(function () {
+                        sumSingleAllFloor += +$(this).val();
+                    });
+                    $("#singleAllCountSpan-floor" + floorNumber).text(sumSingleAllFloor);
+                    $("#singleAssignCount-floor" + floorNumber).val(sumSingleAllFloor);
+                    var singleAllCountFloor = +$("#singleAllCount-floor" + floorNumber).val();
+                    if (singleAllCountFloor == sumSingleAllFloor) {
+                        $("#singleCountLabel-floor" + floorNumber).css("color", "green");
+                        $("#btnSubmitUsersCabins").prop('disabled', false);
+                    }
+                    if (singleAllCountFloor > sumSingleAllFloor) {
+                        $("#singleCountLabel-floor" + floorNumber).css("color", "blue");
+                        $("#btnSubmitUsersCabins").prop('disabled', false);
+                    }
+                    if (singleAllCountFloor < sumSingleAllFloor) {
+                        $("#singleCountLabel-floor" + floorNumber).css("color", "red");
+                        $("#btnSubmitUsersCabins").prop('disabled', true);
+                        Swal.fire('لا يمكن أن يتجاوز الرقم عدد الكبائن في الدور!', '', 'error');
+                    }
+                    if (sumSingleAllFloor < 0) {
+                        $("#singleCountLabel-floor" + floorNumber).css("color", "red");
+                    }
+                };
+            }
+            function generate_handler_double(floorNumber) {
+                return function (event) {
+                    var sumDoubleAllFloor = 0;
+                    $(".doubleAllCount-floor" + floorNumber).each(function () {
+                        sumDoubleAllFloor += +$(this).val();
+                    });
+                    $("#doubleAllCountSpan-floor" + floorNumber).text(sumDoubleAllFloor);
+                    $("#doubleAssignCount-floor" + floorNumber).val(sumDoubleAllFloor);
+                    var doubleAllCountFloor = +$("#doubleAllCount-floor" + floorNumber).val();
+                    if (doubleAllCountFloor == sumDoubleAllFloor) {
+                        $("#doubleCountLabel-floor" + floorNumber).css("color", "green");
+                        $("#btnSubmitUsersCabins").prop('disabled', false);
+                    }
+                    if (doubleAllCountFloor > sumDoubleAllFloor) {
+                        $("#doubleCountLabel-floor" + floorNumber).css("color", "blue");
+                        $("#btnSubmitUsersCabins").prop('disabled', false);
+                    }
+                    if (doubleAllCountFloor < sumDoubleAllFloor) {
+                        $("#doubleCountLabel-floor" + floorNumber).css("color", "red");
+                        $("#btnSubmitUsersCabins").prop('disabled', true);
+                        Swal.fire('لا يمكن أن يتجاوز الرقم عدد الكبائن في الدور!', '', 'error');
+                    }
+                    if (sumDoubleAllFloor < 0) {
+                        $("#doubleCountLabel-floor" + floorNumber).css("color", "red");
+                    }
+                };
+            }
+            function generate_handler_triple(floorNumber) {
+                return function (event) {
+                    var sumTripleAllFloor = 0;
+                    $(".tripleAllCount-floor" + floorNumber).each(function () {
+                        sumTripleAllFloor += +$(this).val();
+                    });
+                    $("#tripleAllCountSpan-floor" + floorNumber).text(sumTripleAllFloor);
+                    $("#tripleAssignCount-floor" + floorNumber).val(sumTripleAllFloor);
+                    var tripleAllCountFloor = +$("#tripleAllCount-floor" + floorNumber).val();
+                    if (tripleAllCountFloor == sumTripleAllFloor) {
+                        $("#tripleCountLabel-floor" + floorNumber).css("color", "green");
+                        $("#btnSubmitUsersCabins").prop('disabled', false);
+                    }
+                    if (tripleAllCountFloor > sumTripleAllFloor) {
+                        $("#tripleCountLabel-floor" + floorNumber).css("color", "blue");
+                        $("#btnSubmitUsersCabins").prop('disabled', false);
+                    }
+                    if (tripleAllCountFloor < sumTripleAllFloor) {
+                        $("#tripleCountLabel-floor" + floorNumber).css("color", "red");
+                        $("#btnSubmitUsersCabins").prop('disabled', true);
+                        Swal.fire('لا يمكن أن يتجاوز الرقم عدد الكبائن في الدور!', '', 'error');
+                    }
+                    if (sumTripleAllFloor < 0) {
+                        $("#tripleCountLabel-floor" + floorNumber).css("color", "red");
+                    }
+                };
+            }
+
+            var floorsCount = +$("#floorsCount").val();
+            for (var i = 0; i < floorsCount; i++) {
+                var floorNumber = i + 1;
+                // on change any single input is same floor
+                $(".singleAllCount-floor" + floorNumber).change(generate_handler_single(floorNumber));
+
+                // on change any double input is same floor
+                $(".doubleAllCount-floor" + floorNumber).change(generate_handler_double(floorNumber));
+
+                //on change any triple input is same floor
+                $(".tripleAllCount-floor" + floorNumber).change(generate_handler_triple(floorNumber));
+            }
+        });
+    </script>
 }

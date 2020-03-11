@@ -45,9 +45,7 @@
                     @Html.DisplayFor(modelItem => item.CabinsCount)
                 </td>
                 <td>
-                    @Html.ActionLink("تعديل بيانات المركب", "Edit", new { id = item.Id }, new { @class = "btn btn-success" }) |
-                    @Html.ActionLink("تعديل أعداد الكبائن", "Edit", new { id = item.Id }, new { @class = "btn btn-success" }) |
-                    @Html.ActionLink("تعديل توزيع الكبائن", "Edit", new { id = item.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("تعديل جميع تفاصيل المركب", "Edit", new { id = item.Id }, new { @class = "btn btn-success" })
                 </td>
             </tr>
         }

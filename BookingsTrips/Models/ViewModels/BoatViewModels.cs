@@ -51,6 +51,32 @@ namespace BookingsTrips.Models.ViewModels
         [Display(Name = "عدد المستخدمين المسموح لهم بالحجز")]
         public int UsersCount { get; set; }
     }
+    public class BoatEditViewModel
+    {
+        public int Id { get; set; }
+
+        [Required_AR]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        [DataType(DataType.Date)]
+        [Display(Name = "من تاريخ")]
+        public DateTime FromDate { get; set; }
+
+        [Required_AR]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        [DataType(DataType.Date)]
+        [Display(Name = "إلى تاريخ")]
+        public DateTime ToDate { get; set; }
+
+        [Required_AR]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
+        [Display(Name = "عدد الأدوار")]
+        public int FloorsCount { get; set; }
+
+        [Required_AR]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
+        [Display(Name = "عدد المستخدمين المسموح لهم بالحجز")]
+        public int UsersCount { get; set; }
+    }
     public class FloorCabinsCountViewModel
     {
         public int Id { get; set; }
