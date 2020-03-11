@@ -79,6 +79,7 @@ namespace BookingsTrips.Controllers
                 };
                 db.Calls.Add(call);
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index", new { searchText = model.Name });
             }
 
@@ -122,6 +123,7 @@ namespace BookingsTrips.Controllers
                 customer.EditedOn = DateTime.Now;
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index", new { searchText = model.Name });
             }
             return View(model);
@@ -166,6 +168,7 @@ namespace BookingsTrips.Controllers
                 };
                 db.Calls.Add(call);
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index", new { searchText = model.Name });
             }
             return View(model);
@@ -191,6 +194,15 @@ namespace BookingsTrips.Controllers
                 });
             ViewBag.CustomerName = customer.Name;
             return View(customerCalls.ToList());
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
         //// GET: Customer/Delete/5
@@ -233,14 +245,5 @@ namespace BookingsTrips.Controllers
         //    }
         //    return View(customer);
         //}
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

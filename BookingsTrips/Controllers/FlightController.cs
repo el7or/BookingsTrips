@@ -88,6 +88,7 @@ namespace BookingsTrips.Controllers
                     EditedOn = DateTime.Now
                 };
                 db.Flights.Add(flight);
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -141,35 +142,10 @@ namespace BookingsTrips.Controllers
                 flight.EditedOn = DateTime.Now;
                 db.Entry(flight).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
             return View(model);
-        }
-
-        // GET: Flight/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Flight flight = db.Flights.Find(id);
-            if (flight == null)
-            {
-                return HttpNotFound();
-            }
-            return View(flight);
-        }
-
-        // POST: Flight/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Flight flight = db.Flights.Find(id);
-            db.Flights.Remove(flight);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
@@ -180,5 +156,31 @@ namespace BookingsTrips.Controllers
             }
             base.Dispose(disposing);
         }
+
+        //// GET: Flight/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Flight flight = db.Flights.Find(id);
+        //    if (flight == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(flight);
+        //}
+
+        //// POST: Flight/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Flight flight = db.Flights.Find(id);
+        //    db.Flights.Remove(flight);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
     }
 }

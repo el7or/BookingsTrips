@@ -1,6 +1,4 @@
-﻿
-
-@{
+﻿@{
     ViewBag.Title = "إضافة مركب";
 }
 
@@ -13,20 +11,21 @@
         <li><a href="#tabs-2">(&#x06F3;) توزيع الكبائن</a></li>
     </ul>
     <div id="tabs-0">
-        @if(ViewBag.Tab==0){
+        @if (ViewBag.Tab == 0)
+        {
             Html.RenderPartial("_CreateBoat");
         }
     </div>
     <div id="tabs-1">
-        @if (ViewBag.Tab==1)
+        @if (ViewBag.Tab == 1)
         {
-            Html.RenderAction("GetFloorCabinsCount",new { id = ViewBag.BoatId }); 
+            Html.RenderPartial("_FloorCabinsCount", ViewData["Tab1Model"]);
         }
     </div>
     <div id="tabs-2">
         @if (ViewBag.Tab == 2)
         {
-            Html.RenderAction("GetUserCabinsCount",new { id = ViewBag.BoatId }); 
+            Html.RenderPartial("_UserCabinsCount", ViewData["Tab2Model"]);
         }
     </div>
 </div>
@@ -42,7 +41,7 @@
                 .tabs("enable", @ViewBag.Tab)
                 .tabs( "option", "active", @ViewBag.Tab );;
 
-            // initial Datepicker
+            // initial Datepickers
             $.datepicker.setDefaults($.datepicker.regional['ar']);
             $('#ToDate').datepicker({
                 dateFormat: "yy/mm/dd",
@@ -50,7 +49,6 @@
                 changeYear: true,
                 minDate: new Date()
             });
-
             $("#FromDate").datepicker({
                 dateFormat: "yy/mm/dd",
                 changeMonth: true,
@@ -61,6 +59,81 @@
                     $("#ToDate").datepicker("option", { minDate: new Date(dateStr) })
                 }
             });
+
+            // update numbers of cabins in tab 2
+            var floorsCount = +$("#floorsCount").val();
+            for (var i = 0; i < floorsCount; i++) {
+                var floorNumber = i + 1;
+                // on change any single input is same floor
+                $(".singleAllCount-floor" + floorNumber).change(function () {
+                    var sumSingleAllFloor = 0;
+                    $(".singleAllCount-floor" + floorNumber).each(function () {
+                        sumSingleAllFloor += +$(this).val();
+                    });
+                    $("#singleAllCountSpan-floor" + floorNumber).text(sumSingleAllFloor);
+                    $("#singleAssignCount-floor" + floorNumber).val(sumSingleAllFloor);
+                    var singleAllCountFloor = +$("#singleAllCount-floor" + floorNumber).val();
+                    if (singleAllCountFloor == sumSingleAllFloor) {
+                        $("#singleCountLabel-floor" + floorNumber).css("color", "green");
+                        $("#btnSubmitUsersCabins").prop('disabled', false);
+                    }
+                    if (singleAllCountFloor > sumSingleAllFloor) {
+                        $("#singleCountLabel-floor" + floorNumber).css("color", "blue");
+                        $("#btnSubmitUsersCabins").prop('disabled', false);
+                    }
+                    if (singleAllCountFloor < sumSingleAllFloor) {
+                        $("#singleCountLabel-floor" + floorNumber).css("color", "red");
+                        $("#btnSubmitUsersCabins").prop('disabled', true);
+                        Swal.fire('تنبيه!', 'لا يمكن أن يتجاوز الرقم عدد الكبائن في الدور!', 'error');
+                    }
+                });
+                // on change any double input is same floor
+                $(".doubleAllCount-floor" + floorNumber).change(function () {
+                    var sumDoubleAllFloor = 0;
+                    $(".doubleAllCount-floor" + floorNumber).each(function () {
+                        sumDoubleAllFloor += +$(this).val();
+                    });
+                    $("#doubleAllCountSpan-floor" + floorNumber).text(sumDoubleAllFloor);
+                    $("#doubleAssignCount-floor" + floorNumber).val(sumDoubleAllFloor);
+                    var doubleAllCountFloor = +$("#doubleAllCount-floor" + floorNumber).val();
+                    if (doubleAllCountFloor == sumDoubleAllFloor) {
+                        $("#doubleCountLabel-floor" + floorNumber).css("color", "green");
+                        $("#btnSubmitUsersCabins").prop('disabled', false);
+                    }
+                    if (doubleAllCountFloor > sumDoubleAllFloor) {
+                        $("#doubleCountLabel-floor" + floorNumber).css("color", "blue");
+                        $("#btnSubmitUsersCabins").prop('disabled', false);
+                    }
+                    if (doubleAllCountFloor < sumDoubleAllFloor) {
+                        $("#doubleCountLabel-floor" + floorNumber).css("color", "red");
+                        $("#btnSubmitUsersCabins").prop('disabled', true);
+                        Swal.fire('تنبيه!', 'لا يمكن أن يتجاوز الرقم عدد الكبائن في الدور!', 'error');
+                    }
+                });
+                //on change any triple input is same floor
+                $(".tripleAllCount-floor" + floorNumber).change(function () {
+                    var sumTripleAllFloor = 0;
+                    $(".tripleAllCount-floor" + floorNumber).each(function () {
+                        sumTripleAllFloor += +$(this).val();
+                    });
+                    $("#tripleAllCountSpan-floor" + floorNumber).text(sumTripleAllFloor);
+                    $("#tripleAssignCount-floor" + floorNumber).val(sumTripleAllFloor);
+                    var tripleAllCountFloor = +$("#tripleAllCount-floor" + floorNumber).val();
+                    if (tripleAllCountFloor == sumTripleAllFloor) {
+                        $("#tripleCountLabel-floor" + floorNumber).css("color", "green");
+                        $("#btnSubmitUsersCabins").prop('disabled', false);
+                    }
+                    if (tripleAllCountFloor > sumTripleAllFloor) {
+                        $("#tripleCountLabel-floor" + floorNumber).css("color", "blue");
+                        $("#btnSubmitUsersCabins").prop('disabled', false);
+                    }
+                    if (tripleAllCountFloor < sumTripleAllFloor) {
+                        $("#tripleCountLabel-floor" + floorNumber).css("color", "red");
+                        $("#btnSubmitUsersCabins").prop('disabled', true);
+                        Swal.fire('تنبيه!', 'لا يمكن أن يتجاوز الرقم عدد الكبائن في الدور!', 'error');
+                    }
+                });
+            }
         });
     </script>
 }

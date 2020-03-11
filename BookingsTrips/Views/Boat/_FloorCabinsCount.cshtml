@@ -9,36 +9,33 @@
     <div class="form-horizontal">
         @for (int i = 0; i < Model.Count(); i++)
         {
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                @Html.HiddenFor(modelItem => modelItem[i].Id)
-                @Html.HiddenFor(modelItem => modelItem[i].BoatId)
+        <div class="row">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(modelItem => modelItem[i].Id)
+            @Html.HiddenFor(modelItem => modelItem[i].FloorNumber)
 
-                <div class="col-md-2 text-center">
-                    <label class="text-danger pt-5">@Model[i].FloorNumber.FloorNumber_AR():</label>
-                    @*@Html.LabelFor(modelItem => modelItem[i].FloorNumber, htmlAttributes: new { @class = "control-label" })
-        @Html.LabelForModel(Model[i].FloorNumber.ToString())
-        @Html.EditorFor(modelItem => modelItem[i].FloorNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })*@
-                </div>
-
-                <div class="col-md-3">
-                    @Html.LabelFor(modelItem => modelItem[i].FloorSingleCabinsCount, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(modelItem => modelItem[i].FloorSingleCabinsCount, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(modelItem => modelItem[i].FloorSingleCabinsCount, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="col-md-3">
-                    @Html.LabelFor(modelItem => modelItem[i].FloorDoubleCabinsCount, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(modelItem => modelItem[i].FloorDoubleCabinsCount, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(modelItem => modelItem[i].FloorDoubleCabinsCount, "", new { @class = "text-danger" })
-                </div>
-
-                <div class=" col-md-3">
-                    @Html.LabelFor(modelItem => modelItem[i].FloorTripleCabinsCount, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(modelItem => modelItem[i].FloorTripleCabinsCount, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(modelItem => modelItem[i].FloorTripleCabinsCount, "", new { @class = "text-danger" })
-                </div>
+            <div class="col-md-2 text-center">
+                <label class="text-primary pt-5">@Model[i].FloorNumber.FloorNumber_AR():</label>            
             </div>
+
+            <div class="col-md-3">
+                @Html.LabelFor(modelItem => modelItem[i].FloorSingleCabinsCount, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(modelItem => modelItem[i].FloorSingleCabinsCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(modelItem => modelItem[i].FloorSingleCabinsCount, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-3">
+                @Html.LabelFor(modelItem => modelItem[i].FloorDoubleCabinsCount, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(modelItem => modelItem[i].FloorDoubleCabinsCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(modelItem => modelItem[i].FloorDoubleCabinsCount, "", new { @class = "text-danger" })
+            </div>
+
+            <div class=" col-md-3">
+                @Html.LabelFor(modelItem => modelItem[i].FloorTripleCabinsCount, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(modelItem => modelItem[i].FloorTripleCabinsCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(modelItem => modelItem[i].FloorTripleCabinsCount, "", new { @class = "text-danger" })
+            </div>
+        </div>
         }
         <hr />
         <div class="form-group text-center">

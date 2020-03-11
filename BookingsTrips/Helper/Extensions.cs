@@ -53,6 +53,35 @@ namespace BookingsTrips.Helper
                     return "";
             }
         }
+
+        public static string UserNumber_AR(this int userNumber)
+        {
+            switch (userNumber)
+            {
+                case 1:
+                    return "المستخدم الأول";
+                case 2:
+                    return "المستخدم الثاني";
+                case 3:
+                    return "المستخدم الثالث";
+                case 4:
+                    return "المستخدم الرابع";
+                case 5:
+                    return "المستخدم الخامس";
+                case 6:
+                    return "المستخدم السادس";
+                case 7:
+                    return "المستخدم السابع";
+                case 8:
+                    return "المستخدم الثامن";
+                case 9:
+                    return "المستخدم التاسع";
+                case 10:
+                    return "المستخدم العاشر";
+                default:
+                    return "";
+            }
+        }
     }
 }
 

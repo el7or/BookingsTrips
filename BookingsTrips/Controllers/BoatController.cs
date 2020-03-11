@@ -31,12 +31,9 @@ namespace BookingsTrips.Controllers
         }
 
         // GET: Boat/Create
-        public ActionResult Create(int? tab)
+        public ActionResult Create()
         {
-            if (tab != null)
-            {
-                ViewBag.Tab = tab;
-            }
+            ViewBag.Tab = 0;
             return View();
         }
 
@@ -60,7 +57,7 @@ namespace BookingsTrips.Controllers
                 db.Boats.Add(boat);
                 for (int i = 0; i < boat.FloorsCount; i++)
                 {
-                    db.Floors.Add(new Floor
+                    var floor = new Floor
                     {
                         Boat = boat,
                         FloorNumber = i + 1,
@@ -72,42 +69,54 @@ namespace BookingsTrips.Controllers
                         CreatedOn = DateTime.Now,
                         EditedBy = User.Identity.GetUserId(),
                         EditedOn = DateTime.Now
-                    });
+                    };
+                    db.Floors.Add(floor);
+                    for (int ii = 0; ii < model.UsersCount; ii++)
+                    {
+                        db.UserCabinsCounts.Add(new UserCabinsCount
+                        {
+                            Floor = floor,
+                            UserId = User.Identity.GetUserId(),
+                            UserSingleCabinsCount = 0,
+                            UserDoubleCabinsCount = 0,
+                            UserTripleCabinsCount = 0,
+                            CreatedBy = User.Identity.GetUserId(),
+                            CreatedOn = DateTime.Now,
+                            EditedBy = User.Identity.GetUserId(),
+                            EditedOn = DateTime.Now
+                        });
+                    }
                 }
                 db.SaveChanges();
+
+                ViewData["Tab1Model"] = boat.Floors.Select(f => new FloorCabinsCountViewModel
+                {
+                    Id = f.Id,
+                    FloorNumber = f.FloorNumber,
+                    FloorSingleCabinsCount = f.FloorSingleCabinsCount,
+                    FloorDoubleCabinsCount = f.FloorDoubleCabinsCount,
+                    FloorTripleCabinsCount = f.FloorTripleCabinsCount
+                }).ToList();
                 ViewBag.Tab = 1;
-                ViewBag.BoatId = boat.Id;
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
                 return View();
             }
             ViewBag.Tab = 0;
             return View(model);
         }
 
-        // GET: Boat/EditFloorCabinsCount/5
-        public ActionResult GetFloorCabinsCount(int? id)
-        {
-            var model = db.Floors.Where(i => i.BoatId == id).Select(f => new FloorCabinsCountViewModel
-            {
-                Id = f.Id,
-                BoatId = f.BoatId,
-                FloorNumber = f.FloorNumber,
-                FloorSingleCabinsCount = f.FloorSingleCabinsCount,
-                FloorDoubleCabinsCount = f.FloorDoubleCabinsCount,
-                FloorTripleCabinsCount = f.FloorTripleCabinsCount
-            }).ToList();
-            return PartialView("_FloorCabinsCount", model);
-        }
-
-        // POST: Boat/EditFloorCabinsCount/5
+        // POST: Boat/EditFloorCabinsCount
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditFloorCabinsCount(IEnumerable<FloorCabinsCountViewModel> model)
         {
             if (ModelState.IsValid)
             {
+                List<UserCabinsCountViewModel> tab2Model = new List<UserCabinsCountViewModel>();
+
                 foreach (var item in model)
                 {
-                    var floor = db.Floors.Find(item.Id);
+                    var floor = db.Floors.Include(f =>f.UserCabinsCounts).FirstOrDefault(i =>i.Id== item.Id);
                     floor.FloorCabinsCount = item.FloorSingleCabinsCount + item.FloorDoubleCabinsCount + item.FloorTripleCabinsCount;
                     floor.FloorSingleCabinsCount = item.FloorSingleCabinsCount;
                     floor.FloorDoubleCabinsCount = item.FloorDoubleCabinsCount;
@@ -115,12 +124,79 @@ namespace BookingsTrips.Controllers
                     floor.EditedBy = User.Identity.GetUserId();
                     floor.EditedOn = DateTime.Now;
                     db.Entry(floor).State = EntityState.Modified;
+
+                    var floorCabinsAssignCount = new UserCabinsCountViewModel
+                    {
+                        Id = item.Id,
+                        FloorNumber = item.FloorNumber,
+                        FloorSingleCabinsCount = item.FloorSingleCabinsCount,
+                        FloorSingleCabinsAssignedCount = 0,
+                        FloorDoubleCabinsCount = item.FloorDoubleCabinsCount,
+                        FloorDoubleCabinsAssignedCount = 0,
+                        FloorTripleCabinsCount = item.FloorTripleCabinsCount,
+                        FloorTripleCabinsAssignedCount = 0,
+                        FloorCabinsUsers = floor.UserCabinsCounts.Select(u => new FloorCabinsUser
+                        {
+                            Id = u.Id,
+                            UserId = u.UserId,
+                            UserSingleCabinsCount = u.UserSingleCabinsCount,                            
+                            UserDoubleCabinsCount = u.UserDoubleCabinsCount,
+                            UserTripleCabinsCount = u.UserTripleCabinsCount
+                        }).ToList()
+                    };
+                    tab2Model.Add(floorCabinsAssignCount);
                 }
                 db.SaveChanges();
-                ViewBag.BoatId = model.First().BoatId;
-                return RedirectToAction("Create",new { tab = 2 });
+
+                List<SelectListItem> usersList = db.Users.Select(u => new SelectListItem()
+                {
+                    Value = u.Id,
+                    Text = u.FullName
+                }).ToList();
+                ViewBag.Users = usersList;
+                ViewData["Tab2Model"] = tab2Model;
+                ViewBag.Tab = 2;
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
+                return View("Create");
             }
-            return View(model);
+            ViewData["Tab1Model"] = model;
+            ViewBag.Tab = 1;
+            return View("Create");
+        }
+
+        // Post: Boat/EditUserCabinsCount/5
+        [HttpPost]
+        public ActionResult EditUserCabinsCount(IEnumerable<UserCabinsCountViewModel> model)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in model)
+                {
+                    foreach (var userCabins in item.FloorCabinsUsers)
+                    {
+                        var userFloorCabins = db.UserCabinsCounts.Find(userCabins.Id);
+                        userFloorCabins.UserId = userCabins.UserId;
+                        userFloorCabins.UserSingleCabinsCount = userCabins.UserSingleCabinsCount;
+                        userFloorCabins.UserDoubleCabinsCount = userCabins.UserDoubleCabinsCount;
+                        userFloorCabins.UserTripleCabinsCount = userCabins.UserTripleCabinsCount;
+                        userFloorCabins.EditedBy = User.Identity.GetUserId();
+                        userFloorCabins.EditedOn = DateTime.Now;
+                        db.Entry(userFloorCabins).State = EntityState.Modified;
+                    }
+                }
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+                List<SelectListItem> usersList = db.Users.Select(u => new SelectListItem()
+            {
+                Value = u.Id,
+                Text = u.FullName
+            }).ToList();
+            ViewBag.Users = usersList;
+            ViewBag.Tab = 2;
+            ViewData["Tab2Model"] = model;
+            return View("Create");
         }
 
         // GET: Boat/Edit/5

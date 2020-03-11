@@ -45,13 +45,16 @@ namespace BookingsTrips.Models.ViewModels
         [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
         [Display(Name = "عدد الأدوار")]
         public int FloorsCount { get; set; }
+
+        [Required_AR]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
+        [Display(Name = "عدد المستخدمين المسموح لهم بالحجز")]
+        public int UsersCount { get; set; }
     }
     public class FloorCabinsCountViewModel
     {
         public int Id { get; set; }
-        public int BoatId { get; set; }
 
-        [Display(Name = "الدور رقم: ")]
         public int FloorNumber { get; set; }
 
         [Required_AR]
@@ -68,5 +71,48 @@ namespace BookingsTrips.Models.ViewModels
         [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
         [Display(Name = "عدد الكبائن الثلاثي")]
         public int? FloorTripleCabinsCount { get; set; }
+    }
+    public class UserCabinsCountViewModel
+    {
+        public int Id { get; set; }
+
+        public int FloorNumber { get; set; }
+
+        [Display(Name = "الكبائن الفردي")]
+        public int? FloorSingleCabinsCount { get; set; }
+        public int? FloorSingleCabinsAssignedCount { get; set; }
+
+        [Display(Name = "الكبائن الزوجي")]
+        public int? FloorDoubleCabinsCount { get; set; }
+        public int? FloorDoubleCabinsAssignedCount { get; set; }
+
+        [Display(Name = "الكبائن الثلاثي")]
+        public int? FloorTripleCabinsCount { get; set; }
+        public int? FloorTripleCabinsAssignedCount { get; set; }
+
+        public List<FloorCabinsUser> FloorCabinsUsers { get; set; }
+    }
+
+    public class FloorCabinsUser
+    {
+        public int Id { get; set; }
+
+        [Required_AR]
+        public string UserId { get; set; }
+
+        [Required_AR]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
+        [Display(Name = "الكبائن الفردي")]
+        public int UserSingleCabinsCount { get; set; }
+
+        [Required_AR]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
+        [Display(Name = "الكبائن الزوجي")]
+        public int UserDoubleCabinsCount { get; set; }
+
+        [Required_AR]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
+        [Display(Name = "الكبائن الثلاثي")]
+        public int UserTripleCabinsCount { get; set; }
     }
 }

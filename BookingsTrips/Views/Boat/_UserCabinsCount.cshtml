@@ -1,0 +1,85 @@
+﻿@using BookingsTrips.Helper;
+
+@model IList<BookingsTrips.Models.ViewModels.UserCabinsCountViewModel>
+
+@using (Html.BeginForm("EditUserCabinsCount", "Boat", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>توزيع كبائن كل دور على المستخدمين:</h4>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            <input type="hidden" id="floorsCount" value="@Model.Count()" />
+            <div class="row">
+                @Html.HiddenFor(modelItem => modelItem[i].Id)
+                <div class="col-md-3">
+                    @Html.HiddenFor(modelItem => modelItem[i].FloorNumber)
+                    <label class="text-danger">@Model[i].FloorNumber.FloorNumber_AR():</label>
+                </div>
+                <div class="col-md-3">
+                    @Html.HiddenFor(modelItem => modelItem[i].FloorSingleCabinsAssignedCount, htmlAttributes: new { @id = "singleAssignCount-floor" + Model[i].FloorNumber })
+                    @Html.HiddenFor(modelItem => modelItem[i].FloorSingleCabinsCount, htmlAttributes: new { @id = "singleAllCount-floor" + Model[i].FloorNumber })
+                    @Html.DisplayNameFor(modelItem => modelItem[i].FloorSingleCabinsCount):
+                    <label style="color:blue;" id="@("singleCountLabel-floor"+@Model[i].FloorNumber)"><span id="@("singleAllCountSpan-floor"+@Model[i].FloorNumber)">@Model[i].FloorSingleCabinsAssignedCount</span> / @Html.DisplayFor(modelItem => modelItem[i].FloorSingleCabinsCount)</label>
+                </div>
+                <div class="col-md-3">
+                    @Html.HiddenFor(modelItem => modelItem[i].FloorDoubleCabinsAssignedCount, htmlAttributes: new { @id = "doubleAssignCount-floor" + Model[i].FloorNumber })
+                    @Html.HiddenFor(modelItem => modelItem[i].FloorDoubleCabinsCount, htmlAttributes: new { @id = "doubleAllCount-floor" + Model[i].FloorNumber })
+                    @Html.DisplayNameFor(modelItem => modelItem[i].FloorDoubleCabinsCount):
+                    <label style="color:blue;" id="@("doubleCountLabel-floor"+@Model[i].FloorNumber)"><span id="@("doubleAllCountSpan-floor"+@Model[i].FloorNumber)">@Model[i].FloorDoubleCabinsAssignedCount</span> / @Html.DisplayFor(modelItem => modelItem[i].FloorDoubleCabinsCount)</label>
+                </div>
+                <div class="col-md-3">
+                    @Html.HiddenFor(modelItem => modelItem[i].FloorTripleCabinsAssignedCount, htmlAttributes: new { @id = "tripleAssignCount-floor" + Model[i].FloorNumber })
+                    @Html.HiddenFor(modelItem => modelItem[i].FloorTripleCabinsCount, htmlAttributes: new { @id = "tripleAllCount-floor" + Model[i].FloorNumber })
+                    @Html.DisplayNameFor(modelItem => modelItem[i].FloorTripleCabinsCount):
+                    <label style="color:blue;" id="@("tripleCountLabel-floor"+@Model[i].FloorNumber)"><span id="@("tripleAllCountSpan-floor"+@Model[i].FloorNumber)">@Model[i].FloorTripleCabinsAssignedCount</span> / @Html.DisplayFor(modelItem => modelItem[i].FloorTripleCabinsCount)</label>
+                </div>
+            </div>
+
+            for (int ii = 0; ii < Model[i].FloorCabinsUsers.Count(); ii++)
+            {
+                string userNumber = (ii + 1).UserNumber_AR();
+                <div class="row">
+                    @Html.HiddenFor(modelItem => modelItem[i].FloorCabinsUsers[ii].Id)
+                    <input type="hidden" id="@userNumber" name="@userNumber" value="@userNumber" />
+                    <div class="col-md-3 text-center">
+                        <label class="text-primary control-label">@userNumber</label>
+                        @Html.DropDownListFor(modelItem => modelItem[i].FloorCabinsUsers[ii].UserId, new SelectList(ViewBag.Users, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-3">
+                        @Html.LabelFor(modelItem => modelItem[i].FloorCabinsUsers[ii].UserSingleCabinsCount, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(modelItem => modelItem[i].FloorCabinsUsers[ii].UserSingleCabinsCount, new { htmlAttributes = new { @class = "form-control singleAllCount-floor" + Model[i].FloorNumber } })
+                        @Html.ValidationMessageFor(modelItem => modelItem[i].FloorCabinsUsers[ii].UserSingleCabinsCount, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-3">
+                        @Html.LabelFor(modelItem => modelItem[i].FloorCabinsUsers[ii].UserDoubleCabinsCount, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(modelItem => modelItem[i].FloorCabinsUsers[ii].UserDoubleCabinsCount, new { htmlAttributes = new { @class = "form-control doubleAllCount-floor" + Model[i].FloorNumber } })
+                        @Html.ValidationMessageFor(modelItem => modelItem[i].FloorCabinsUsers[ii].UserDoubleCabinsCount, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class=" col-md-3">
+                        @Html.LabelFor(modelItem => modelItem[i].FloorCabinsUsers[ii].UserTripleCabinsCount, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(modelItem => modelItem[i].FloorCabinsUsers[ii].UserTripleCabinsCount, new { htmlAttributes = new { @class = "form-control tripleAllCount-floor" + Model[i].FloorNumber } })
+                        @Html.ValidationMessageFor(modelItem => modelItem[i].FloorCabinsUsers[ii].UserTripleCabinsCount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            <hr style="border-top-color:darkgray;" />
+        }
+        @*<div class="form-group">
+                @Html.LabelFor(m => m.RoleName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.RoleName, new SelectList(ViewBag.Roles, "Value", "Text"), "اختر القسم ..", new { @class = "form-control" })
+                </div>
+            </div>*@
+        <div class="form-group text-center">
+            <div class="col-md-12">
+                <input type="submit" value="حفظ وإنهاء" id="btnSubmitUsersCabins" class="btn btn-success" />&nbsp;
+                @Html.ActionLink("إلغاء", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
