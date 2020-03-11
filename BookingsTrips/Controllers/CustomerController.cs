@@ -79,7 +79,7 @@ namespace BookingsTrips.Controllers
                 };
                 db.Calls.Add(call);
                 db.SaveChanges();
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index", new { searchText = model.Name });
             }
 
@@ -123,7 +123,7 @@ namespace BookingsTrips.Controllers
                 customer.EditedOn = DateTime.Now;
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index", new { searchText = model.Name });
             }
             return View(model);
@@ -168,7 +168,7 @@ namespace BookingsTrips.Controllers
                 };
                 db.Calls.Add(call);
                 db.SaveChanges();
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index", new { searchText = model.Name });
             }
             return View(model);

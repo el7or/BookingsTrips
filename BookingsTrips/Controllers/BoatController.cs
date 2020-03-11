@@ -98,7 +98,7 @@ namespace BookingsTrips.Controllers
                     FloorTripleCabinsCount = f.FloorTripleCabinsCount
                 }).ToList();
                 ViewBag.Tab = 1;
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return View();
             }
             ViewBag.Tab = 0;
@@ -191,7 +191,7 @@ namespace BookingsTrips.Controllers
                     FloorTripleCabinsCount = f.FloorTripleCabinsCount
                 }).ToList();
                 ViewBag.Tab = 1;
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return View();
             }
             ViewBag.Tab = 0;
@@ -249,7 +249,7 @@ namespace BookingsTrips.Controllers
                 ViewBag.Users = usersList;
                 ViewData["Tab2Model"] = tab2Model;
                 ViewBag.Tab = 2;
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return View("Create");
             }
             ViewData["Tab1Model"] = model;
@@ -278,7 +278,7 @@ namespace BookingsTrips.Controllers
                     }
                 }
                 db.SaveChanges();
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
             List<SelectListItem> usersList = db.Users.Select(u => new SelectListItem()

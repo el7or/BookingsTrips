@@ -88,7 +88,7 @@ namespace BookingsTrips.Controllers
                     EditedOn = DateTime.Now
                 };
                 db.Flights.Add(flight);
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -142,7 +142,7 @@ namespace BookingsTrips.Controllers
                 flight.EditedOn = DateTime.Now;
                 db.Entry(flight).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح.', showConfirmButton: false, timer: 1500})</script>";
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
             return View(model);
