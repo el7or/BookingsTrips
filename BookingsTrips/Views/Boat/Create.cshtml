@@ -61,11 +61,8 @@
             });
 
             // update numbers of cabins in tab 2
-            var floorsCount = +$("#floorsCount").val();
-            for (var i = 0; i < floorsCount; i++) {
-                var floorNumber = i + 1;
-                // on change any single input is same floor
-                $(".singleAllCount-floor" + floorNumber).change(function () {
+            function generate_handler_single(floorNumber) {
+                return function (event) {
                     var sumSingleAllFloor = 0;
                     $(".singleAllCount-floor" + floorNumber).each(function () {
                         sumSingleAllFloor += +$(this).val();
@@ -84,11 +81,15 @@
                     if (singleAllCountFloor < sumSingleAllFloor) {
                         $("#singleCountLabel-floor" + floorNumber).css("color", "red");
                         $("#btnSubmitUsersCabins").prop('disabled', true);
-                        Swal.fire('تنبيه!', 'لا يمكن أن يتجاوز الرقم عدد الكبائن في الدور!', 'error');
+                        Swal.fire('لا يمكن أن يتجاوز الرقم عدد الكبائن في الدور!', '', 'error');
                     }
-                });
-                // on change any double input is same floor
-                $(".doubleAllCount-floor" + floorNumber).change(function () {
+                    if (sumSingleAllFloor < 0) {
+                        $("#singleCountLabel-floor" + floorNumber).css("color", "red");
+                    }
+                };
+            }
+            function generate_handler_double(floorNumber) {
+                return function (event) {
                     var sumDoubleAllFloor = 0;
                     $(".doubleAllCount-floor" + floorNumber).each(function () {
                         sumDoubleAllFloor += +$(this).val();
@@ -107,11 +108,15 @@
                     if (doubleAllCountFloor < sumDoubleAllFloor) {
                         $("#doubleCountLabel-floor" + floorNumber).css("color", "red");
                         $("#btnSubmitUsersCabins").prop('disabled', true);
-                        Swal.fire('تنبيه!', 'لا يمكن أن يتجاوز الرقم عدد الكبائن في الدور!', 'error');
+                        Swal.fire('لا يمكن أن يتجاوز الرقم عدد الكبائن في الدور!', '', 'error');
                     }
-                });
-                //on change any triple input is same floor
-                $(".tripleAllCount-floor" + floorNumber).change(function () {
+                    if (sumDoubleAllFloor < 0) {
+                        $("#doubleCountLabel-floor" + floorNumber).css("color", "red");
+                    }
+                };
+            }
+            function generate_handler_triple(floorNumber) {
+                return function (event) {
                     var sumTripleAllFloor = 0;
                     $(".tripleAllCount-floor" + floorNumber).each(function () {
                         sumTripleAllFloor += +$(this).val();
@@ -130,9 +135,25 @@
                     if (tripleAllCountFloor < sumTripleAllFloor) {
                         $("#tripleCountLabel-floor" + floorNumber).css("color", "red");
                         $("#btnSubmitUsersCabins").prop('disabled', true);
-                        Swal.fire('تنبيه!', 'لا يمكن أن يتجاوز الرقم عدد الكبائن في الدور!', 'error');
+                        Swal.fire('لا يمكن أن يتجاوز الرقم عدد الكبائن في الدور!', '', 'error');
                     }
-                });
+                    if (sumTripleAllFloor < 0) {
+                        $("#tripleCountLabel-floor" + floorNumber).css("color", "red");
+                    }
+                };
+            }
+
+            var floorsCount = +$("#floorsCount").val();
+            for (var i = 0; i < floorsCount; i++) {
+                var floorNumber = i + 1;
+                // on change any single input is same floor
+                $(".singleAllCount-floor" + floorNumber).change(generate_handler_single(floorNumber));
+
+                // on change any double input is same floor
+                $(".doubleAllCount-floor" + floorNumber).change(generate_handler_double(floorNumber));
+
+                //on change any triple input is same floor
+                $(".tripleAllCount-floor" + floorNumber).change(generate_handler_triple(floorNumber));
             }
         });
     </script>
