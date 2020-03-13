@@ -26,7 +26,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FloorsCount, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-8">
-                @Html.EditorFor(model => model.FloorsCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.FloorsCount, new { htmlAttributes = new { @type = "number", @min="0", @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FloorsCount, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.UsersCount, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-8">
-                @Html.EditorFor(model => model.UsersCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.UsersCount, new { htmlAttributes = new {@type = "number", @min="0", @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UsersCount, "", new { @class = "text-danger" })
             </div>
         </div>
