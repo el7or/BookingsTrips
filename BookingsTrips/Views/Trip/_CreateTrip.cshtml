@@ -1,0 +1,100 @@
+﻿@model BookingsTrips.Models.ViewModels.TripCreateViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal row">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.StartPoint, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.StartPoint, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StartPoint, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EndPoint, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.EndPoint, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EndPoint, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @type = "text", @class = "form-control datepicker", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @type = "text", @class = "form-control datepicker", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.FlightId, new { @class = "control-label" })
+                @if (ViewBag.Flights == null)
+                {
+                    <span class="text-danger">لا توجد حاليا رحلات متاحة !</span>
+                    @Html.ActionLink("إضافة رحلة طيران", "Create","Flight", null, new { @class = "btn btn-primary" })
+                }
+                @Html.DropDownListFor(m => m.FlightId, new SelectList(ViewBag.Flights, "Value", "Text"), "اختر الطائرة ..", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FlightId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.BoatId, new { @class = "control-label" })
+                @if (ViewBag.Boats.Count == 0)
+                {
+                <div>
+                    <span class="text-danger">لا توجد حاليا مراكب متاحة !</span>
+                    @Html.ActionLink("إضافة مركب جديد", "Create","Boat", new { tab = 0 }, new { @class = "btn btn-primary" })
+                </div>
+                }
+                else
+                {
+                @Html.DropDownListFor(m => m.BoatId, new SelectList(ViewBag.Boats, "Value", "Text"), "اختر المركب ..", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BoatId, "", new { @class = "text-danger" })
+                }
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AdultPrice, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.AdultPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AdultPrice, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TeenPrice, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.TeenPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TeenPrice, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ChildPrice, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ChildPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ChildPrice, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BabyPrice, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.BabyPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BabyPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12 text-center">
+            <input type="submit" value="حفظ واستمرار" class="btn btn-success" />&nbsp;
+            @Html.ActionLink("إلغاء", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+}

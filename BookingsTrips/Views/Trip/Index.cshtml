@@ -44,7 +44,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ToDate)
                 </td>
-                <td>
+                <td style="text-align:center;">
                     @Html.ActionLink("تعديل بيانات الرحلة", "Edit", new { id = item.Id }, new { @class = "btn btn-success" }) |
                     @Html.ActionLink("إضافة طائرة", "AddFlight", new { id = item.Id }, new { @class = "btn btn-warning" }) |
                     @Html.ActionLink("إضافة مركب", "AddBoat", new { id = item.Id }, new { @class = "btn btn-warning" })
