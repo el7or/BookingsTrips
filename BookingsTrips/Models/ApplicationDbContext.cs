@@ -21,5 +21,7 @@ namespace BookingsTrips.Models
         public DbSet<Boat> Boats { get; set; }
         public DbSet<Floor> Floors { get; set; }
         public DbSet<UserCabinsCount> UserCabinsCounts { get; set; }
+        public DbSet<Trip> Trips { get; set; }
+        public DbSet<TripCabinsPrice> TripCabinsPrices { get; set; }
     }
 }

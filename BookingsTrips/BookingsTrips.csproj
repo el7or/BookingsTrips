@@ -213,11 +213,16 @@
     <Compile Include="Migrations\202003100510288_BoatModel.Designer.cs">
       <DependentUpon>202003100510288_BoatModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003140942510_TripModel.cs" />
+    <Compile Include="Migrations\202003140942510_TripModel.Designer.cs">
+      <DependentUpon>202003140942510_TripModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\BoatModels.cs" />
     <Compile Include="Models\CustomerModels.cs" />
     <Compile Include="Models\FlightModels.cs" />
+    <Compile Include="Models\TripModels.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ViewModels\BoatViewModels.cs" />
@@ -383,6 +388,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003100510288_BoatModel.resx">
       <DependentUpon>202003100510288_BoatModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003140942510_TripModel.resx">
+      <DependentUpon>202003140942510_TripModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

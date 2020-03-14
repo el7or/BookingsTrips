@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -23,5 +24,9 @@ namespace BookingsTrips.Models
         public DateTime CreatedOn { get; set; }
         public string EditedBy { get; set; }
         public DateTime EditedOn { get; set; }
+
+        [ForeignKey("Trip")]
+        public int? TripId { get; set; }
+        public Trip Trip { get; set; }
     }
 }

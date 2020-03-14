@@ -22,6 +22,10 @@ namespace BookingsTrips.Models
         public DateTime EditedOn { get; set; }
 
         public ICollection<Floor> Floors { get; set; }
+
+        [ForeignKey("Trip")]
+        public int? TripId { get; set; }
+        public Trip Trip { get; set; }
     }
     public class Floor
     {
@@ -46,6 +50,7 @@ namespace BookingsTrips.Models
         public DateTime EditedOn { get; set; }
 
         public ICollection<UserCabinsCount> UserCabinsCounts { get; set; }
+        public ICollection<TripCabinsPrice> TripCabinsPrices { get; set; }
     }
     public class UserCabinsCount
     {
