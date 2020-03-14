@@ -28,20 +28,21 @@
             <div class="navbar-collapse collapse">
                 @if (Request.IsAuthenticated)
                 {
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("المستخدمين", "Index", "Account")</li>
-                        <li>@Html.ActionLink("العملاء", "Index", "Customer")</li>
-                        <li>
-                            <a class="dropdown-toggle" data-toggle="dropdown">
-                                وسائل النقل
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="nav dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("رحلات الطيران", "Index", "Flight")</li>
-                                <li>@Html.ActionLink("المراكب", "Index", "Boat")</li>
-                            </ul>
-                        </li>
-                    </ul>
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("المستخدمين", "Index", "Account")</li>
+                    <li>@Html.ActionLink("العملاء", "Index", "Customer")</li>
+                    <li>
+                        <a class="dropdown-toggle" data-toggle="dropdown">
+                            وسائل النقل
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="nav dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("رحلات الطيران", "Index", "Flight")</li>
+                            <li>@Html.ActionLink("المراكب", "Index", "Boat")</li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("الرحلات السياحية", "Index", "Trip")</li>
+                </ul>
                 }
                 <div class="nav navbar-nav navbar-right hidden-xs">
                     <a href="@Url.Action("Index", "Home")" class="navbar-brand">

@@ -1,0 +1,69 @@
+﻿@model IEnumerable<BookingsTrips.Models.ViewModels.TripIndexViewModel>
+
+@{
+    ViewBag.Title = "الرحلات السياحية";
+}
+
+<h2>قائمة الرحلات السياحية</h2>
+
+<p>
+    @Html.ActionLink("إضافة رحلة سياحية", "Create", new { tab = 0 }, new { @class = "btn btn-primary" })
+</p>
+<table id="tblTrips" class="table table-striped">
+    <thead>
+        <tr class="info">
+            <th>
+                @Html.DisplayNameFor(model => model.StartPoint)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndPoint)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FromDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartPoint)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndPoint)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FromDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ToDate)
+                </td>
+                <td>
+                    @Html.ActionLink("تعديل بيانات الرحلة", "Edit", new { id = item.Id }, new { @class = "btn btn-success" }) |
+                    @Html.ActionLink("إضافة طائرة", "AddFlight", new { id = item.Id }, new { @class = "btn btn-warning" }) |
+                    @Html.ActionLink("إضافة مركب", "AddBoat", new { id = item.Id }, new { @class = "btn btn-warning" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('#tblTrips').DataTable({
+                "searching": false,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Arabic.json"
+                }
+            });
+        });
+    </script>
+}
