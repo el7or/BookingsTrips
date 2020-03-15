@@ -1,4 +1,4 @@
-﻿@model BookingsTrips.Models.ViewModels.TripCreateViewModel
+﻿@model BookingsTrips.Models.ViewModels.TripEditViewModel
 
 @using (Html.BeginForm())
 {
@@ -6,6 +6,7 @@
 
     <div class="form-horizontal row">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
 
         <div class="col-md-6">
             <div class="form-group">
@@ -22,44 +23,26 @@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @type = "text", @class = "form-control datepicker", @readonly = "readonly" } })
+                @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @Value = Model.FromDate.ToString("yyyy/MM/dd"), @type = "text", @class = "form-control datepicker", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @type = "text", @class = "form-control datepicker", @readonly = "readonly" } })
+                @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @Value = Model.FromDate.ToString("yyyy/MM/dd"), @type = "text", @class = "form-control datepicker", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.FlightId, new { @class = "control-label" })
-                @if (ViewBag.Flights.Count == 0)
-                {
-                    <span class="text-danger">لا توجد حاليا رحلات طيران متاحة !</span>
-                    @Html.ActionLink("إضافة رحلة طيران جديدة", "Create", "Flight", null, new { @class = "btn btn-primary" })
-                }
-                else
-                {
-                    @Html.DropDownListFor(m => m.FlightId, new SelectList(ViewBag.Flights, "Value", "Text"), "اختر الطائرة ..", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.FlightId, "", new { @class = "text-danger" })
-                }
+                @Html.DropDownListFor(m => m.FlightId, new SelectList(ViewBag.Flights, "Value", "Text"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FlightId, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.BoatId, new { @class = "control-label" })
-                @if (ViewBag.Boats.Count == 0)
-                {
-                    <div>
-                        <span class="text-danger">لا توجد حاليا مراكب متاحة !</span>
-                        @Html.ActionLink("إضافة مركب جديد", "Create", "Boat", new { tab = 0 }, new { @class = "btn btn-primary" })
-                    </div>
-                }
-                else
-                {
-                    @Html.DropDownListFor(m => m.BoatId, new SelectList(ViewBag.Boats, "Value", "Text"), "اختر المركب ..", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.BoatId, "", new { @class = "text-danger" })
-                }
+                @Html.DropDownListFor(m => m.BoatId, new SelectList(ViewBag.Boats, "Value", "Text"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BoatId, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -96,6 +79,8 @@
         </div>
 
         <div class="form-group col-md-12 text-center">
+            <span class="text-warning">&#9733; في حالة عمل أي تعديل لابد من إكمال الخطوة الثانية الخاصة بأسعار الكبائن !</span>
+            <hr />
             <input type="submit" value="حفظ واستمرار" class="btn btn-success" />&nbsp;
             @Html.ActionLink("إلغاء", "Index", null, new { @class = "btn btn-default" })
         </div>

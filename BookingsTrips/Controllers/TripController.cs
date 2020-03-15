@@ -33,7 +33,7 @@ namespace BookingsTrips.Controllers
         // GET: Trip/Create
         public ActionResult Create()
         {
-            List<SelectListItem> flights = db.Flights.OrderByDescending(d => d.CreatedOn).Take(50).Where(t => t.TripId==null).ToList().Select(r => new SelectListItem()
+            List<SelectListItem> flights = db.Flights.OrderByDescending(d => d.CreatedOn).Take(50).Where(t => t.TripId == null).ToList().Select(r => new SelectListItem()
             {
                 Value = r.Id.ToString(),
                 Text = r.FromAirport + " إلى " + r.ToAirport + " - تاريخ " + r.FromDate.ToString("yyyy/MM/dd")
@@ -105,7 +105,10 @@ namespace BookingsTrips.Controllers
                     FloorNumber = f.Floor.FloorNumber,
                     TripSingleCabinsPrice = f.TripSingleCabinsPrice,
                     TripDoubleCabinsPrice = f.TripDoubleCabinsPrice,
-                    TripTripleCabinsPrice = f.TripTripleCabinsPrice
+                    TripTripleCabinsPrice = f.TripTripleCabinsPrice,
+                    FloorSingleCabinsCount = f.Floor.FloorSingleCabinsCount,
+                    FloorDoubleCabinsCount = f.Floor.FloorDoubleCabinsCount,
+                    FloorTripleCabinsCount = f.Floor.FloorTripleCabinsCount
                 }).ToList();
                 ViewBag.Tab = 1;
                 TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
@@ -141,7 +144,7 @@ namespace BookingsTrips.Controllers
             }
             var model = new TripEditViewModel
             {
-                Id  =trip.Id,
+                Id = trip.Id,
                 FromDate = trip.FromDate,
                 ToDate = trip.ToDate,
                 StartPoint = trip.StartPoint,
@@ -152,8 +155,21 @@ namespace BookingsTrips.Controllers
                 ChildPrice = trip.ChildPrice,
                 BabyPrice = trip.BabyPrice,
                 FlightId = db.Flights.FirstOrDefault(f => f.TripId == trip.Id).Id,
-                BoatId = db.Boats.FirstOrDefault(f => f.TripId == trip.Id).Id
+                BoatId = db.Boats.FirstOrDefault(b => b.TripId == trip.Id).Id
             };
+            List<SelectListItem> flights = db.Flights.OrderByDescending(d => d.CreatedOn).Take(50).ToList().Select(r => new SelectListItem()
+            {
+                Value = r.Id.ToString(),
+                Text = r.FromAirport + " إلى " + r.ToAirport + " - تاريخ " + r.FromDate.ToString("yyyy/MM/dd")
+            }).ToList();
+            ViewBag.Flights = flights;
+            List<SelectListItem> boats = db.Boats.OrderByDescending(d => d.CreatedOn).Take(50).ToList().Select(r => new SelectListItem()
+            {
+                Value = r.Id.ToString(),
+                Text = "من تاريخ " + r.FromDate.ToString("yyyy/MM/dd") + " إلى تاريخ " + r.ToDate.ToString("yyyy/MM/dd")
+            }).ToList();
+            ViewBag.Boats = boats;
+
             ViewBag.Tab = 0;
             return View(model);
         }
@@ -161,17 +177,87 @@ namespace BookingsTrips.Controllers
         // POST: Trip/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,StartPoint,EndPoint,FromDate,ToDate,Cost,AdultPrice,TeenPrice,ChildPrice,BabyPrice,IsActive,IsDeleted,CreatedBy,CreatedOn,EditedBy,EditedOn")] Trip trip)
+        public ActionResult Edit(TripEditViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var trip = db.Trips.Include(p => p.TripCabinsPrices).FirstOrDefault(t => t.Id==model.Id);
+                trip.FromDate = model.FromDate;
+                trip.ToDate = model.ToDate;
+                trip.StartPoint = model.StartPoint;
+                trip.EndPoint = model.EndPoint;
+                trip.Cost = model.Cost;
+                trip.AdultPrice = model.AdultPrice;
+                trip.TeenPrice = model.TeenPrice;
+                trip.ChildPrice = model.ChildPrice;
+                trip.BabyPrice = model.BabyPrice;
+                trip.EditedBy = User.Identity.GetUserId();
+                trip.EditedOn = DateTime.Now;
+                db.TripCabinsPrices.RemoveRange(trip.TripCabinsPrices);
                 db.Entry(trip).State = EntityState.Modified;
+
+                var tripFlight = db.Flights.Find(model.FlightId);
+                if(tripFlight.TripId!= trip.Id)
+                {
+                    tripFlight.Trip = trip;
+                    db.Entry(tripFlight).State = EntityState.Modified;
+                }
+                var tripBoat = db.Boats.Include(b => b.Floors).SingleOrDefault(i => i.Id == model.BoatId);
+                if (tripBoat.TripId != trip.Id)
+                {
+                    tripBoat.Trip = trip;
+                    db.Entry(tripBoat).State = EntityState.Modified;
+                }
+
+                foreach (var floor in tripBoat.Floors)
+                {
+                    db.TripCabinsPrices.Add(new TripCabinsPrice
+                    {
+                        Trip = trip,
+                        Floor = floor,
+                        TripSingleCabinsPrice = 0,
+                        TripDoubleCabinsPrice = 0,
+                        TripTripleCabinsPrice = 0,
+                        CreatedBy = User.Identity.GetUserId(),
+                        CreatedOn = DateTime.Now,
+                        EditedBy = User.Identity.GetUserId(),
+                        EditedOn = DateTime.Now
+                    });
+                }
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                ViewData["Tab1Model"] = trip.TripCabinsPrices.Select(f => new TripCabinsPriceViewModel
+                {
+                    Id = f.Id,
+                    FloorNumber = f.Floor.FloorNumber,
+                    TripSingleCabinsPrice = f.TripSingleCabinsPrice,
+                    TripDoubleCabinsPrice = f.TripDoubleCabinsPrice,
+                    TripTripleCabinsPrice = f.TripTripleCabinsPrice,
+                    FloorSingleCabinsCount = f.Floor.FloorSingleCabinsCount,
+                    FloorDoubleCabinsCount = f.Floor.FloorDoubleCabinsCount,
+                    FloorTripleCabinsCount = f.Floor.FloorTripleCabinsCount
+                }).ToList();
+                ViewBag.Tab = 1;
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return View();
             }
-            return View(trip);
+            List<SelectListItem> flights = db.Flights.OrderByDescending(d => d.CreatedOn).Take(50).ToList().Select(r => new SelectListItem()
+            {
+                Value = r.Id.ToString(),
+                Text = r.FromAirport + " إلى " + r.ToAirport + " - تاريخ " + r.FromDate.ToString("yyyy/MM/dd")
+            }).ToList();
+            ViewBag.Flights = flights;
+            List<SelectListItem> boats = db.Boats.OrderByDescending(d => d.CreatedOn).Take(50).ToList().Select(r => new SelectListItem()
+            {
+                Value = r.Id.ToString(),
+                Text = "من تاريخ " + r.FromDate.ToString("yyyy/MM/dd") + " إلى تاريخ " + r.ToDate.ToString("yyyy/MM/dd")
+            }).ToList();
+            ViewBag.Boats = boats;
+
+            ViewBag.Tab = 0;
+            return View(model);
         }
-        
+
         // POST: Boat/EditFloorCabinsCount
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -187,7 +273,7 @@ namespace BookingsTrips.Controllers
                     floor.TripTripleCabinsPrice = item.TripTripleCabinsPrice;
                     floor.EditedBy = User.Identity.GetUserId();
                     floor.EditedOn = DateTime.Now;
-                    db.Entry(floor).State = EntityState.Modified;                    
+                    db.Entry(floor).State = EntityState.Modified;
                 }
                 db.SaveChanges();
                 TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";

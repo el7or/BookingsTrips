@@ -165,5 +165,9 @@ namespace BookingsTrips.Models.ViewModels
         [RegularExpression(@"^[0-9]+(\.[0-9][0-9]?)?", ErrorMessage = "لابد من إدخال صيغة رقمية أو عشرية صحيحة !")]
         [Display(Name = "سعر الكبائن الثلاثي")]
         public decimal TripTripleCabinsPrice { get; set; }
+
+        public int? FloorSingleCabinsCount { get; set; }
+        public int? FloorDoubleCabinsCount { get; set; }
+        public int? FloorTripleCabinsCount { get; set; }
     }
 }
