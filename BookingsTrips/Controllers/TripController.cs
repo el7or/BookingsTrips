@@ -139,7 +139,23 @@ namespace BookingsTrips.Controllers
             {
                 return HttpNotFound();
             }
-            return View(trip);
+            var model = new TripEditViewModel
+            {
+                Id  =trip.Id,
+                FromDate = trip.FromDate,
+                ToDate = trip.ToDate,
+                StartPoint = trip.StartPoint,
+                EndPoint = trip.EndPoint,
+                Cost = trip.Cost,
+                AdultPrice = trip.AdultPrice,
+                TeenPrice = trip.TeenPrice,
+                ChildPrice = trip.ChildPrice,
+                BabyPrice = trip.BabyPrice,
+                FlightId = db.Flights.FirstOrDefault(f => f.TripId == trip.Id).Id,
+                BoatId = db.Boats.FirstOrDefault(f => f.TripId == trip.Id).Id
+            };
+            ViewBag.Tab = 0;
+            return View(model);
         }
 
         // POST: Trip/Edit/5
