@@ -112,7 +112,7 @@ namespace BookingsTrips.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Boat boat = db.Boats.Find(id);
+            Boat boat = db.Boats.Include(b => b.Floors).Include("Floors.UserCabinsCounts").SingleOrDefault(i => i.Id == id);
             if (boat == null)
             {
                 return HttpNotFound();
@@ -123,7 +123,7 @@ namespace BookingsTrips.Controllers
                 FromDate = boat.FromDate,
                 ToDate = boat.ToDate,
                 FloorsCount = boat.FloorsCount,
-                UsersCount = boat.FloorsCount
+                UsersCount = boat.Floors.First().UserCabinsCounts.Count()
             };
             ViewBag.Tab = 0;
             return View(model);
@@ -292,6 +292,47 @@ namespace BookingsTrips.Controllers
             return View("Create");
         }
 
+        // GET: Boat/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Boat boat = db.Boats.Include(b => b.Floors).Include("Floors.UserCabinsCounts").Include("Floors.UserCabinsCounts.User").SingleOrDefault(i => i.Id == id);
+            if (boat == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new BoatDetailsViewModel
+            {
+                Id = boat.Id,
+                FromDate = boat.FromDate,
+                ToDate = boat.ToDate,
+                FloorsCount = boat.FloorsCount,
+                UsersCount = boat.Floors.First().UserCabinsCounts.Count(),
+                CreatedBy = db.Users.Where(u => u.Id == boat.CreatedBy).FirstOrDefault().FullName,
+                CreatedOn = boat.CreatedOn,
+                EditedBy = db.Users.Where(u => u.Id == boat.EditedBy).FirstOrDefault().FullName,
+                EditedOn = boat.EditedOn,
+                BoatDetailsFloorCabinsCounts = boat.Floors.Select(f => new BoatDetailsFloorCabinsCount
+                {
+                    FloorNumber = f.FloorNumber,
+                    FloorSingleCabinsCount = f.FloorSingleCabinsCount,
+                    FloorDoubleCabinsCount = f.FloorDoubleCabinsCount,
+                    FloorTripleCabinsCount = f.FloorTripleCabinsCount,
+                    BoatDetailsUserCabinsCounts = f.UserCabinsCounts.Select(u => new BoatDetailsUserCabinsCount
+                    {
+                        UserFullName = u.User.FullName,
+                        UserSingleCabinsCount = u.UserSingleCabinsCount,
+                        UserDoubleCabinsCount = u.UserDoubleCabinsCount,
+                        UserTripleCabinsCount = u.UserTripleCabinsCount
+                    }).ToList()
+                }).ToList()
+            };
+            return View(model);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -300,21 +341,6 @@ namespace BookingsTrips.Controllers
             }
             base.Dispose(disposing);
         }
-
-        //// GET: Boat/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Boat boat = db.Boats.Find(id);
-        //    if (boat == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(boat);
-        //}
 
         //// GET: Boat/Delete/5
         //public ActionResult Delete(int? id)

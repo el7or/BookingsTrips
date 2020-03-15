@@ -44,7 +44,8 @@
                 <td style="text-align:center;">
                     @Html.DisplayFor(modelItem => item.CabinsCount)
                 </td>
-                <td>
+                <td style="text-align:center;">
+                    @Html.ActionLink("تفاصيل المركب", "Details", new { id = item.Id }, new { @class = "btn btn-info" }) |
                     @Html.ActionLink("تعديل جميع تفاصيل المركب", "Edit", new { id = item.Id }, new { @class = "btn btn-success" })
                 </td>
             </tr>

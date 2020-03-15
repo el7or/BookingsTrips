@@ -65,13 +65,16 @@ dt {
 .ui-tabs {
     direction: rtl;
 }
+
     .ui-tabs .ui-tabs-nav li.ui-tabs-selected,
     .ui-tabs .ui-tabs-nav li.ui-state-default {
         float: right;
     }
+
     .ui-tabs .ui-tabs-nav li a {
         float: right;
     }
+
 .ui-tabs-nav.ui-corner-all {
     border-bottom-right-radius: unset;
     border-bottom-left-radius: unset;
@@ -82,11 +85,15 @@ dt {
 
 
 /***** Fonts *****/
-h1, h2 ,h4{
+h1, h2, h3, h4, h5, h6 {
     font-family: DecoType Naskh !important;
 }
-h4{
-    font-size:x-large !important;
+
+h4 {
+    font-size: x-large !important;
+}
+h5 {
+    font-size: large !important;
 }
 
 label, th, dt {
