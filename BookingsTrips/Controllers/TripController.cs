@@ -181,7 +181,7 @@ namespace BookingsTrips.Controllers
         {
             if (ModelState.IsValid)
             {
-                var trip = db.Trips.Include(p => p.TripCabinsPrices).FirstOrDefault(t => t.Id==model.Id);
+                var trip = db.Trips.Include(p => p.TripCabinsPrices).FirstOrDefault(t => t.Id == model.Id);
                 trip.FromDate = model.FromDate;
                 trip.ToDate = model.ToDate;
                 trip.StartPoint = model.StartPoint;
@@ -197,7 +197,7 @@ namespace BookingsTrips.Controllers
                 db.Entry(trip).State = EntityState.Modified;
 
                 var tripFlight = db.Flights.Find(model.FlightId);
-                if(tripFlight.TripId!= trip.Id)
+                if (tripFlight.TripId != trip.Id)
                 {
                     tripFlight.Trip = trip;
                     db.Entry(tripFlight).State = EntityState.Modified;
@@ -258,7 +258,7 @@ namespace BookingsTrips.Controllers
             return View(model);
         }
 
-        // POST: Boat/EditFloorCabinsCount
+        // POST: Trip/EditTripCabinsPrice
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditTripCabinsPrice(IEnumerable<TripCabinsPriceViewModel> model)
@@ -284,6 +284,117 @@ namespace BookingsTrips.Controllers
             return View("Create");
         }
 
+        // GET: Trip/AddTransport/5
+        public ActionResult AddTransport(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Trip trip = db.Trips.Find(id);
+            if (trip == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new TripAddTransportViewModel
+            {
+                Id = trip.Id
+            };
+            List<SelectListItem> flights = db.Flights.OrderByDescending(d => d.CreatedOn).Take(50).Where(t => t.TripId == null).ToList().Select(r => new SelectListItem()
+            {
+                Value = r.Id.ToString(),
+                Text = r.FromAirport + " إلى " + r.ToAirport + " - تاريخ " + r.FromDate.ToString("yyyy/MM/dd")
+            }).ToList();
+            ViewBag.Flights = flights;
+            List<SelectListItem> boats = db.Boats.OrderByDescending(d => d.CreatedOn).Take(50).Where(t => t.TripId == null).ToList().Select(r => new SelectListItem()
+            {
+                Value = r.Id.ToString(),
+                Text = "من تاريخ " + r.FromDate.ToString("yyyy/MM/dd") + " إلى تاريخ " + r.ToDate.ToString("yyyy/MM/dd")
+            }).ToList();
+            ViewBag.Boats = boats;
+
+            return View();
+        }
+
+        // POST: Trip/AddTransport
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddTransport(TripAddTransportViewModel model)
+        {
+            if (model.FlightId != null || model.BoatId != null)
+            {
+                Trip trip = db.Trips.Find(model.Id);
+                if (trip == null)
+                {
+                    return HttpNotFound();
+                }
+                if (model.FlightId != null)
+                {
+                    var tripFlight = db.Flights.Find(model.FlightId);
+                    tripFlight.Trip = trip;
+                    db.Entry(tripFlight).State = EntityState.Modified;
+                }
+                if (model.BoatId != null)
+                {
+                    var tripBoat = db.Boats.Include(b => b.Floors).SingleOrDefault(i => i.Id == model.BoatId);
+                    tripBoat.Trip = trip;
+                    db.Entry(tripBoat).State = EntityState.Modified;
+                }
+
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+            }
+            else
+            {
+                TempData["alert"] = "<script>Swal.fire({icon: 'warning', title: 'لم يتم أي تغيير !', showConfirmButton: false, timer: 1500})</script>";
+            }
+            return RedirectToAction("Index");
+        }
+
+        // GET: Trip/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Trip trip = db.Trips.Include(t => t.TripCabinsPrices).Include("TripCabinsPrices.Floor").FirstOrDefault(i => i.Id==id);
+            if (trip == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new TripDetailsViewModel
+            {
+                Id = trip.Id,
+                FromDate = trip.FromDate,
+                ToDate = trip.ToDate,
+                StartPoint = trip.StartPoint,
+                EndPoint = trip.EndPoint,
+                Cost = trip.Cost,
+                AdultPrice = trip.AdultPrice,
+                TeenPrice = trip.TeenPrice,
+                ChildPrice = trip.ChildPrice,
+                BabyPrice = trip.BabyPrice,
+                CreatedBy = db.Users.Where(u => u.Id == trip.CreatedBy).FirstOrDefault().FullName,
+                CreatedOn = trip.CreatedOn,
+                EditedBy = db.Users.Where(u => u.Id == trip.EditedBy).FirstOrDefault().FullName,
+                EditedOn = trip.EditedOn,
+                FlightsIds = db.Flights.Where(f => f.TripId==trip.Id).ToList().Select(r => r.FromAirport + " إلى " + r.ToAirport + " - تاريخ " + r.FromDate.ToString("yyyy/MM/dd")).ToArray(),
+                BoatsIds = db.Boats.Where(f => f.TripId == trip.Id).ToList().Select(r  => "من تاريخ " + r.FromDate.ToString("yyyy/MM/dd") + " إلى تاريخ " + r.ToDate.ToString("yyyy/MM/dd")).ToArray(),
+                TripDetailsCabinsPrices = trip.TripCabinsPrices.Select(f => new TripDetailsCabinsPrice
+                {
+                    FloorNumber = f.Floor.FloorNumber,
+                    TripSingleCabinsPrice = f.TripSingleCabinsPrice,
+                    TripDoubleCabinsPrice = f.TripDoubleCabinsPrice,
+                    TripTripleCabinsPrice = f.TripTripleCabinsPrice,
+                    FloorSingleCabinsCount = f.Floor.FloorSingleCabinsCount,
+                    FloorDoubleCabinsCount = f.Floor.FloorDoubleCabinsCount,
+                    FloorTripleCabinsCount = f.Floor.FloorTripleCabinsCount
+                }).ToList()
+            };
+            return View(model);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -292,21 +403,6 @@ namespace BookingsTrips.Controllers
             }
             base.Dispose(disposing);
         }
-
-        //// GET: Trip/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Trip trip = db.Trips.Find(id);
-        //    if (trip == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(trip);
-        //}
 
         //// GET: Trip/Delete/5
         //public ActionResult Delete(int? id)

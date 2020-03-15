@@ -1,138 +1,185 @@
-﻿@model BookingsTrips.Models.Trip
+﻿@using BookingsTrips.Helper;
+
+@model BookingsTrips.Models.ViewModels.TripDetailsViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "تفاصيل الرحلة";
 }
 
-<h2>Details</h2>
+<h2>تفاصيل الرحلة السياحية</h2>
 
-<div>
-    <h4>Trip</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.StartPoint)
-        </dt>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <h4>بيانات الرحلة:</h4>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.StartPoint)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.StartPoint)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.StartPoint)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EndPoint)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.EndPoint)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EndPoint)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.EndPoint)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FromDate)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.FromDate)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FromDate)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.FromDate)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ToDate)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ToDate)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ToDate)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ToDate)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Cost)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Cost)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Cost)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Cost) ج.م
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AdultPrice)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.AdultPrice)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.AdultPrice)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.AdultPrice) ج.م
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TeenPrice)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.TeenPrice)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TeenPrice)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.TeenPrice) ج.م
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ChildPrice)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ChildPrice)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ChildPrice)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ChildPrice) ج.م
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BabyPrice)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.BabyPrice)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.BabyPrice)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.BabyPrice) ج.م
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedOn)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.EditedBy)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.EditedBy)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedOn)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.EditedOn)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.EditedOn)
+            </dd>
+        </dl>
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EditedBy)
-        </dt>
+    <div class="col-md-6">
+        <h4>أسعار الكبائن:</h4>
+        @foreach (var item in Model.TripDetailsCabinsPrices)
+        {
+            <label class="control-label">@item.FloorNumber.FloorNumber_AR():</label>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => item.TripSingleCabinsPrice)
+                </dt>
+                @if (item.FloorSingleCabinsCount == 0)
+                {
+                    <dd class="text-warning">لا توجد كبائن فردي في هذا الدور</dd>
+                }
+                else
+                {
+                    <dd>
+                        @Html.DisplayFor(model => item.TripSingleCabinsPrice) ج.م
+                    </dd>
+                }
+                <dt>
+                    @Html.DisplayNameFor(model => item.TripDoubleCabinsPrice)
+                </dt>
+                @if (item.FloorDoubleCabinsCount == 0)
+                {
+                    <dd class="text-warning">لا توجد كبائن زوجي في هذا الدور</dd>
+                }
+                else
+                {
+                    <dd>
+                        @Html.DisplayFor(model => item.TripDoubleCabinsPrice) ج.م
+                    </dd>
+                }
+                <dt>
+                    @Html.DisplayNameFor(model => item.TripTripleCabinsPrice)
+                </dt>
+                @if (item.FloorTripleCabinsCount == 0)
+                {
+                    <dd class="text-warning">لا توجد كبائن ثلاثي في هذا الدور</dd>
+                }
+                else
+                {
+                    <dd>
+                        @Html.DisplayFor(model => item.TripTripleCabinsPrice) ج.م
+                    </dd>
+                }
+            </dl>
+        }
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.EditedBy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EditedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EditedOn)
-        </dd>
-
-    </dl>
+    <div class="form-group col-md-12 text-center">
+        @Html.ActionLink("تعديل الرحلة", "Edit", new { id = Model.Id }, new { @class = "btn btn-success" }) &nbsp;
+        @Html.ActionLink("إلغاء", "Index", null, new { @class = "btn btn-default" })
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+@section Styles
+{
+    <style type="text/css">
+        .dl-horizontal dt {
+            min-width: 300px !important;
+        }
+    </style>
+}

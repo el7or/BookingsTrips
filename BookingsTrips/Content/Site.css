@@ -82,8 +82,11 @@ dt {
 
 
 /***** Fonts *****/
-h1, h2 {
+h1, h2 ,h4{
     font-family: DecoType Naskh !important;
+}
+h4{
+    font-size:x-large !important;
 }
 
 label, th, dt {

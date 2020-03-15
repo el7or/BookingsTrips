@@ -371,6 +371,7 @@
     <Content Include="Views\Trip\_CreateTrip.cshtml" />
     <Content Include="Views\Trip\_TripCabinsPrice.cshtml" />
     <Content Include="Views\Trip\_EditTrip.cshtml" />
+    <Content Include="Views\Trip\AddTransport.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
