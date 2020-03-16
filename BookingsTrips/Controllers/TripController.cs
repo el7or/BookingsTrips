@@ -371,6 +371,7 @@ namespace BookingsTrips.Controllers
                 StartPoint = trip.StartPoint,
                 EndPoint = trip.EndPoint,
                 Cost = trip.Cost,
+                FlightFicketFee = db.Flights.FirstOrDefault(f => f.TripId == trip.Id).Price,
                 AdultPrice = trip.AdultPrice,
                 TeenPrice = trip.TeenPrice,
                 ChildPrice = trip.ChildPrice,

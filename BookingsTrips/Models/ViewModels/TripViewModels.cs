@@ -207,6 +207,10 @@ namespace BookingsTrips.Models.ViewModels
         public decimal Cost { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
+        [Display(Name = "سعر تذكرة الطائرة:")]
+        public decimal FlightFicketFee { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         [Display(Name = "سعر برنامج الرحلة للبالغين:")]
         public decimal AdultPrice { get; set; }
 
